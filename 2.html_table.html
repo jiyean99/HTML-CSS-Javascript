@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML 테이블</title>
+</head>
+<body>
+    <h2>글자 스타일링 예제</h2>
+    <!-- 📍 style 속성을 사용하여 인라인 스타일링 적용
+        * CSS 속성 예시:
+            - color : 글자색 변경
+            - background-color : 배경색 변경
+            - font-size : 글자크기 변경
+     -->
+    <p>1. 글자색 변경 : <span style="color: rgb(255, 0, 0);">테스트</span></p>
+    <p>2. 배경색 변경 : <span style="background-color: grey;">테스트</span></p>
+    <p>3. 글자크기 변경 : <span style="font-size: 20px;">테스트</span></p>
+    <p>4. 복합 스타일링 : </p>
+    <p style="color: blue; background-color: lightblue; font-size: 18px; text-align: center;">테스트</p>
+    <hr>
+    <h2>link와 이미지 삽입</h2>
+    <!-- 📍 a 태그 : 하이퍼링크 정의
+        * href 속성 : 링크할 URL 지정
+        * target 속성 : 링크 열기 방식 지정 (_blank: 새 탭에서 열기, _self: 현재 탭에서 열기 등)
+     -->
+     <!-- 📍 img 태그 : 이미지 삽입
+         * src 속성 : 이미지 파일 경로 지정
+             * 상대경로 : 현재 문서 위치를 기준으로 한 경로 지정 (프로젝트 내 이미지 삽입)
+             * 절대경로 : 도메인 루트를 기준으로 한 경로 지정 (이미지의 url 링크 삽입)
+         * alt 속성 : 이미지 설명 텍스트 지정 (이미지 로드 실패 시 표시되는 대체 문자열), 시각장애인 보조기술에 도움
+         * width, height 속성 : 이미지 크기 지정
+      -->
+    <p>1. link 태그 예제 : <a href="https://www.naver.com" target="_blank">네이버 웹사이트로 이동</a></p>
+
+    <p>2. 이미지 삽입 예제 :</p>
+    <img src="images/bg.jpg" alt="내부 이미지" width="150" height="150" style="object-fit: cover;">
+    <img src="https://images.unsplash.com/photo-1759914915077-1eaa86724311?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="외부 이미지" width="150" height="150" style="object-fit: cover;">
+
+    <p>3. 이미지에 링크걸기 :</p>
+    <div>
+        <a href="https://www.naver.com" target="_blank" 
+        style="text-decoration: none; 
+        color: black; 
+        border: 1px solid black; 
+        padding: 5px; 
+        display: inline-flex; 
+        align-items: center; 
+        gap: 10px;">
+            <img src="images/naver-btn.svg" alt="네이버" width="150" height="100%"> 바로가기
+        </a>
+    </div>
+    <!--📍 크기 단위 설명
+        * pixel(픽셀) 단위 : 화면을 구성하는 최소 단위의 점(점의 집합으로 이미지가 표현됨), 절대크기
+            * 고정된 크기 지정에 유리하지만, 다양한 화면 크기에 대응하기 어려움
+            * 예시 : width="150px", height="100px"
+        * % 단위 : 부모 요소의 크기를 기준으로 한 상대적인 크기 지정, 상대크기
+            * 반응형 웹디자인에 유리하며, 다양한 화면 크기에 대응 가능
+            * 예시 : width="50%", height="100%"
+    -->
+    <hr>
+    <h2>list</h2>
+    <!-- 📍 리스트 태그
+        * ul : 순서없는 리스트(unordered list)
+            * li : 리스트 항목(list item)
+        * ol : 순서있는 리스트(ordered list)
+            * li : 리스트 항목(list item)
+    -->
+    <p>1. 순서없는 리스트 예제 :</p>
+    <ul style="list-style-type: square;">
+        <li>첫번째 아이템</li>
+        <li>두번째 아이템</li>
+        <li>세번째 아이템</li>
+    </ul>
+    <p>2. 순서있는 리스트 예제 :</p>
+    <ol style="list-style-type: upper-roman;">
+        <li>첫번째 아이템</li>
+        <li>두번째 아이템</li>
+        <li>세번째 아이템</li>
+    </ol>
+    <hr>
+    <h2>테이블 태그</h2>
+    <!-- 📍 테이블 태그
+        * caption : 테이블 제목을 정의하는 태그
+        * colgroup : 열 그룹을 정의하는 태그
+        * table : 테이블 전체를 감싸는 태그
+        * tr : 테이블의 행(row)을 정의하는 태그
+        * th : 테이블의 헤더 셀(header cell)을 정의하는 태그 (기본적으로 글자가 굵고 가운데 정렬됨)
+        * td : 테이블의 데이터 셀(data cell)을 정의하는 태그
+        * thead : 테이블의 헤더 섹션을 정의하는 태그
+        * tbody : 테이블의 바디 섹션을 정의하는 태그
+    -->
+    <table border="1" cellspacing="0" cellpadding="5" style="border-collapse: collapse;">
+        <caption style="text-align: left;">사용자 정보 테이블</caption>
+        <colgroup>
+            <col style="width: 50px;">
+            <col style="width: 100px;">
+            <col style="width: 200px;">
+            <col style="width: 200px;">
+        </colgroup>
+        <thead style="background-color: lightgray;">
+            <tr>
+                <th>id</th>
+                <th>이름</th>
+                <th>이메일</th>
+                <th>주소</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- 데이터1 -->
+            <tr>
+                <td>0</td>
+                <td>홍길동</td>
+                <td>hong@example.com</td>
+                <td>서울시 강남구</td>
+            </tr>
+            <!-- 데이터2 -->
+            <tr>
+                <td>1</td>
+                <td>김철수</td>
+                <td>kim@example.com</td>
+                <td>서울시 마포구</td>
+            </tr>
+            <!-- 데이터3 -->
+            <tr>
+                <td>2</td>
+                <td>이영희</td>
+                <td>lee@example.com</td>
+                <td>서울시 강서구</td>
+            </tr>
+        </tbody>
+    </table>
+    <!-- 📄[실습예제] 테이블 만들기 
+        1. 테이블 제목 : "게시글 목록조회 테이블"
+        2. 컬럼 : "id", "title", "contents", "author_email"
+     -->    
+    <br>
+    <table border="1" cellspacing="0" cellpadding="5" style="border-collapse: collapse;">
+        <caption style="text-align: left;">게시글 목록조회 테이블</caption>
+        <colgroup>
+            <col style="width: 50px;">
+            <col style="width: 150px;">
+            <col style="width: 250px;">
+            <col style="width: 250px;">
+        </colgroup>
+        <thead style="background-color: lightgray;">
+            <tr>
+                <th>id</th>
+                <th>title</th>
+                <th>contents</th>
+                <th>author_email</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>0</td>
+                <td>첫 번째 게시글</td>
+                <td>게시글 내용입니다.</td>
+                <td>hong@example.com</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>두 번째 게시글</td>
+                <td>두 번째 게시글의 내용입니다.</td>
+                <td>lee@example.com</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>세 번째 게시글</td>
+                <td>세 번째 게시글의 내용입니다.</td>
+                <td>kim@example.com</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

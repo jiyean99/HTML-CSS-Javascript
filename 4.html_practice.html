@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>글쓰기 폼 생성 실습</title>
+    </head>
+    <body>
+    <!-- 📄[실습예제] 글쓰기 form 생성 실습 
+        1. 제목, 내용입력(사이즈 넉넉하게)
+        2. 예약 여부(yes/no) - 라디오 버튼
+        3. 예약 등록 시간
+    -->
+    <form action="http://localhost:8080" method="post" enctype="application/x-www-form-urlencoded"
+        style="
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: auto;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            margin: 30px;
+            padding: 0 30px 30px 30px;
+        ">
+        <h3>글쓰기</h3>
+        <div>
+            <label for="title">제목:</label>
+            <input type="text" id="title" name="title" style="width: 300px;">
+        </div>
+        <div style="display: flex;">
+            <label for="content">내용: &nbsp;</label>
+            <textarea id="content" name="content" rows="10" cols="39" style="resize: none;" placeholder="내용을 입력하시오."></textarea>
+        </div>
+        <div>
+            <span>예약 여부:</span>
+            <input type="radio" id="yes" name="reservation" value="yes" checked>
+            <label for="yes">예</label>
+            <input type="radio" id="no" name="reservation" value="no">
+            <label for="no">아니오</label>
+        </div>
+        <div>
+            <label for="reservationTime">예약 등록 시간:</label>
+            <input type="datetime-local" id="reservationTime" name="reservationTime">
+        </div>
+        <div style="margin-top: 20px;">
+            <button type="reset"> 
+                초기화
+            </button>
+            <button type="submit"> 
+                글쓰기 제출
+            </button>
+        </div>
+    </form>
+</body>
+</html>
+

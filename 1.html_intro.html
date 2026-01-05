@@ -1,0 +1,99 @@
+<!-- 📍 HTML의 기본 구조
+    * DOCTYPE : html5 버전을 명시(생략가능)
+    * html : HTML 문서의 시작과 끝을 정의
+        * lang 속성 : 문서의 언어 설정(한국어: ko, 영어: en)
+    * head : HTML 문서의 메타데이터(설정정보) 정의
+    * body : HTML 문서의 본문 내용 정의
+ -->
+ <!DOCTYPE html>
+ <html lang="ko">
+     <!-- 📍 HTML의 상세 구조
+        * meta : 문자셋, 작성자, 키워드, 설명 등 문서에 대한 메타데이터 정의(검색엔진 최적화에 도움)
+            * charset : 문자인코딩(문자셋) 정의(utf-8 권장)
+            * viewport : width=device-width(사용중인 모바일 기기의 화면 너비에 대한 설정), initial-scale=1.0(웹페이지 로드 시 100%크기로 로드되도록 배율설정), 반응형 웹페이지 제작 시 뷰포트 설정
+            * name : 메타데이터의 이름 설정(작성자, 키워드, 설명 등)
+            * content : 메타데이터의 내용 설정  
+        * title : 문서 제목(북마크명/브라우저 탭명 활용, 검색엔진에서 중요 키워드로 활용)
+        * style : 내부 스타일 정의
+        * link : 외부 파일 연결 (css, 아이콘 등)
+        * script : 자바스크립트 코드 정의 및 외부 파일 연결
+    -->
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>HTML 기초 학습</title>
+    </head>
+    <body>
+        <h1>Html 학습하기</h1>
+        <h2>h태그는 제목을 의미하고, 위 아래로 약간의 여백이 삽입된다. 또한 bold처리 됨.</h2>
+        <!-- 📍 주요 텍스트 관련 태그
+            * h1 ~ h6 : 제목 태그(heading)  
+                * h1 : 가장 큰 제목
+                * h6 : 가장 작은 제목
+                * 검색엔진에서 중요한 키워드로 활용
+            * p : 단락 태그(paragraph)
+            * br : 줄바꿈 태그(line break)
+        -->
+        <p>검색엔진에서 h태그는 중요한 키워드로 활용된다.</p>
+        <p>p태그는 단락을 의미하고, 줄바꿈이 되며, 태그 위아래로 약간의 여백이 삽입된다.</p>
+        <p>html 태그 내에서는 엔터를 치더라도 웹페이지에서 줄바꿈이 되지 않는다.</p>
+        <p>html 태그내에서는 엔터를 치더라도 줄바꿈이 되지 않고,</p><br/>
+        <p>줄바꿈을 하려면 br태그를 사용해야 한다.</p>
+        <p>또한, 여러개의 공백도 하나의 공백으로 처리된다.</p>
+        <hr/>
+        <h2>텍스트의 형식화</h2>
+        <!-- 📍 주요 서식태그
+            * b, strong : 글자를 굵게 처리(bold)
+                * strong 태그는 의미상으로도 강조하는 태그
+            * i, em : 글자를 기울임 처리(italic)
+                * em 태그는 의미상으로도 강조하는 태그
+            * u : 글자에 밑줄 긋기(underline)
+            * mark : 글자에 형광펜으로 밑줄 긋기(mark)
+            * del : 삭제된 텍스트 표현(delete)
+            * sub : 아래 첨자 표현(subscript)
+            * sup : 위 첨자 표현(superscript)
+        -->
+        <p><b>bold 태그는 글자를 굵게 처리한다.</b></p>
+        <p><strong>strong 태그는 글자를 굵게 처리하며, 의미상으로도 강조하는 태그이다.</strong></p>
+        <p><i>italic 태그는 글자를 기울임 처리한다.</i></p>
+        <p><em>em 태그는 글자를 기울임 처리하며, 의미상으로도 강조하는 태그이다.</em></p>
+        <p><u>underline 태그는 글자에 밑줄을 긋는다.</u></p>
+        <p><mark>mark 태그는 글자에 형광펜으로  밑줄을 긋는 효과를 준다.</mark></p>
+        <p><del>del 태그는 삭제된 텍스트를 표현한다.</del></p>
+        <p>sub 태그는 아래 첨자<sub>아래에 작은 글씨</sub>를 표현한다.</p>
+        <p>sup 태그는 위 첨자<sup>위에 작은 글씨</sup>를 표현한다.</p>
+        <hr/>
+        <h2>Html에서의 엔티티(특수기호) 사용</h2>
+        <!-- 📍 주요 엔티티(특수기호)
+            * &nbsp; : 공백문자(non-breaking space)
+            * &lt; : less than 기호(<)
+            * &gt; : greater than 기호(>)
+            * &amp; : 앰퍼샌드(&)
+            * &quot; : 쌍따옴표(")
+            * &apos; : 홑따옴표(')
+        -->
+        <p>1. 공백문자 : &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (공백테스트)</p>
+        <p>2. less than 기호 : &lt; </p>
+        <p>3. greater than 기호 : &gt; </p>
+        <p>4. 앰퍼샌드 : &amp; </p>
+        <p>5. 쌍따옴표 : &quot; </p>
+        <p>6. 홑따옴표 : &apos; </p>
+        <hr/>
+        <h2>div와 span 태그</h2>
+        <!-- 📍 div와 span 태그
+            * div : 블록 레벨 요소(블록 단위로 구분, 줄바꿈 발생)
+                div 태그는 특별한 기능이 없고, 주로 레이아웃 구성을 위해 사용(섹션 구분)
+            * span : 인라인 요소(글자 단위로 구분, 줄바꿈 없음)
+                span 태그는 특별한 기능이 없고, 주로 텍스트의 일부분을 꾸미기 위해 사용
+        -->
+        <div></div>
+        <span></span>
+        <p>div 태그는 블록 레벨 요소로 블록 단위로 구분되며 줄바꿈이 발생한다.</p>
+        <p>span 태그는 인라인 요소로 글자 단위로 구분되며 줄바꿈이 발생하지 않는다.</p>
+        <p>div와 span 사용 예시</p>
+        <div style="background-color: rgb(214, 245, 255); padding: 10px; margin-bottom: 10px;">
+            이것은 div 태그로 감싼 영역입니다. 블록 레벨 요소이므로 줄바꿈이 발생합니다.
+        </div>
+        <p>이 문장에는 <span style="color: red; font-weight: bold;">span 태그</span>가 포함되어 있습니다. <span style="color: red; font-weight: bold;">인라인 요소</span>이므로 줄바꿈이 발생하지 않습니다.</p>
+    </body>
+ </html>

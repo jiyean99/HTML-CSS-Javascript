@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML 폼</title>
+</head>
+<body>
+    <h2>회원가입 폼 태그 예제</h2>
+    <!-- 📍 form 태그 : 폼(입력양식) 정의
+        * action 속성 : 폼 제출 시 input의 데이터들을 전송할 URL 지정
+        * method 속성 : 폼 제출 방식 지정 (GET, POST)
+            * GET : URL에 폼 데이터가 쿼리스트링 형태로 포함되어 전송 (보안에 취약, 짧은 데이터 전송에 적합)
+            * POST : 폼 데이터가 HTTP 메시지 바디에 포함되어 전송 (보안에 강함, 대용량 데이터 전송에 적합)
+     -->
+    <!-- 📍 enctype 속성 : 폼 데이터 인코딩 방식 지정
+        * application/x-www-form-urlencoded : 기본 인코딩 방식, 폼 데이터를 URL 인코딩하여 전송
+        * multipart/form-data : 파일 업로드(이미지, 동영상) 등 바이너리 데이터 포함 시 사용
+        * text/plain : 폼 데이터를 단순 텍스트 형식으로 전송 (비추천)
+    -->
+    <!-- 📍 HTTP 문서 구조
+        * HTTP 요청(request) : 클라이언트(브라우저)가 서버에 데이터를 요청하는 메시지
+            * 요청 라인 : 요청 메서드(GET, POST 등), 요청 URL, HTTP 버전 정보 포함
+            * 요청 헤더 : 클라이언트 정보, 쿠키, 콘텐츠 타입 등 메타데이터 포함
+            * 요청 바디 : 폼 데이터 등 실제 전송되는 데이터 포함 (POST 방식일 때)
+        * HTTP 응답(response) : 서버가 클라이언트에 데이터를 응답하는 메시지
+            * 상태 라인 : HTTP 버전, 상태 코드(200, 404 등), 상태 메시지 포함
+            * 응답 헤더 : 서버 정보, 콘텐츠 타입, 쿠키 등 메타데이터 포함
+            * 응답 바디 : 실제 전송되는 데이터(HTML 문서, 이미지 등) 포함
+        * 이 때 Content-Type 헤더는 요청 및 응답 바디의 데이터 형식을 지정하는 데 사용된다.
+            * 예시 : application/json, text/html, application/x-www-form-urlencoded, multipart/form-data 등
+            * application/json : JSON 형식의 데이터 전송 시 사용 ({키:값, 키:값} 형태, 주로 API 통신에 활용하여 순수 HtML 폼에서는 잘 사용되지 않음)
+            * application/x-www-form-urlencoded : 폼 데이터가 URL 인코딩된 형식으로 전송될 때 사용 (키=값&키=값 형태)
+            * multipart/form-data : 파일 업로드 등 바이너리 데이터가 포함된 폼 데이터 전송 시 사용 (키=값&키=값 형태, 파일 포함 가능)
+    -->
+    <form action="https://naver.com" method="POST" enctype="multipart/form-data">
+         <!-- 📍 reset 버튼 : 폼 데이터 초기화 버튼 정의
+            * type="reset" : 초기화 버튼으로 지정
+            * value 속성 : 버튼에 표시될 텍스트 지정
+         -->
+         <!-- 📍 textarea 태그 : 여러 줄 입력 양식 정의
+            * rows 속성 : 입력 양식의 행(줄) 수 지정
+            * cols 속성 : 입력 양식의 열(가로) 수 지정
+         -->
+        <!-- 📍label 태그 : 입력 양식의 라벨을 정의
+            * for 속성 : 연결된 입력 양식의 id 지정
+         -->
+         <!-- 📍 input 태그 : 다양한 유형의 입력 양식 정의
+            * type 속성 : 입력 양식의 유형 지정 (text, password, email, date 등)
+                * text : 일반 텍스트 입력 양식
+                * password : 비밀번호 입력 양식 (입력된 문자가 가려짐)
+                * email : 이메일 주소 입력 양식 (이메일 형식 유효성 검사 포함
+                * radio : 라디오 버튼 (여러 옵션 중 하나 선택)
+                * checkbox : 체크박스 (여러 옵션 중 다중 선택 가능)
+                    * 데이터 전송 형태: 선택된 체크박스의 값들이 배열 형태로 전송됨 (예: 키=[값1, 값2])
+                * datetime-local : 날짜 및 시간 입력 양식 (달력 및 시간 선택 UI 제공
+                    * Java에서 date 타입으로 받으려면 별도의 형식 변환 필요 (예: LocalDateTime, LocalDate 등), Spring Boot에서는 @DateTimeFormat 어노테이션 활용
+                    * date 타입은 날짜만 선택 가능, datetime-local은 날짜와 시간 모두 선택 가능
+                * number : 숫자 입력 양식 (숫자만 입력 가능)
+            * name 속성 : 폼 데이터 전송 시 사용되는 이름 지정 (key 역할, 필수값)
+            * id 속성 : 입력 양식의 고유 식별자 지정 (label 태그와 연결 위해 사용)
+            * size 속성 : 입력 양식의 가로 크기 지정 (문자 단위)
+            * maxlength 속성 : 입력 가능한 최대 문자 수 지정
+            * required 속성 : 필수 입력 필드로 지정
+            * readonly 속성 : 읽기 전용 입력 필드로 지정 (사용자가 수정 불가)
+            * disabled 속성 : 비활성화된 입력 필드로 지정 (사용자가 입력 불가)
+            * checked 속성 : 라디오 버튼 또는 체크박스가 기본 선택되도록 지정
+            * accept 속성 : 파일 입력 양식에서 허용되는 파일 유형 지정 (예: images/*, .pdf 등)
+            * placeholder 속성 : 입력 양식에 힌트 텍스트 표시
+         -->
+        <!-- 📍 select 태그 : 드롭다운 정의
+            * option 태그 : 드롭다운 목록의 각 옵션 정의
+                * value 속성 : 옵션 선택 시 전송되는 값 지정
+        -->
+        <!-- 📍 textarea 태그
+            * rows 속성 : 입력 양식의 행(줄) 수 지정
+            * cols 속성 : 입력 양식의 열(가로) 수 지정  
+        -->
+        <!-- 📍 form 태그에서 데이터 제출 방식
+            * button 태그의 type 속성에 따라 동작이 달라짐
+                * type="submit" : 폼 데이터 제출 (기본값)
+                * type="reset" : 폼 데이터 초기화
+                * type="button" : 일반 버튼 (JavaScript로 동작 정의 가능)
+            * input 태그의 type 속성에 따라 동작이 달라짐
+                * type="submit" : 폼 데이터 제출 버튼
+                * type="reset" : 폼 데이터 초기화 버튼
+                * type="button" : 일반 버튼 (JavaScript로 동작 정의 가능)
+        --> 
+        <div>
+            <label for="userName">사용자 이름:</label>
+            <input type="text" id="userName" name="userName" required>
+        </div>
+        <div>
+            <label for="email">이메일:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div>
+            <label for="password">비밀번호:</label>
+            <input type="password" id="password" name="password">
+        </div>
+        <div>
+            <label for="address">주소:</label>
+            <input type="text" id="address" name="address" size="40" maxlength="40" readonly>
+        </div>
+        <div>
+            <label for="gender">성별:</label>
+            <input type="radio" id="male" name="gender" value="male" checked>
+            <label for="male">남성</label>
+            <input type="radio" id="female" name="gender" value="female"> 
+            <label for="female">여성</label>
+        </div>
+        <div>
+            <label for="interest">관심사항:</label>
+            <input type="checkbox" name="interest" id="sports" value="sports">
+            <label for="sports">스포츠</label>
+            <input type="checkbox" id="music" name="interest" value="music">
+            <label for="music">음악</label>
+            <input type="checkbox" id="reading" name="interest" value="reading">
+            <label for="reading">독서</label>
+        </div>
+        <div>
+            <label for="birth">생년월일:</label>
+            <input type="datetime-local" id="birth" name="birth">
+        </div>
+        <div>
+            <label for="age">나이:</label>
+            <input type="number" id="age" name="age">
+        </div>
+        <div>
+            <label for="role">직업:</label>
+            <select name="role" id="role">
+                <option value="developer">개발자</option>
+                <option value="student">학생</option>
+                <option value="designer">디자이너</option>
+                <option value="manager">매니저</option>
+                <option value="pm">PM</option>
+            </select>
+        </div>
+        <div>
+            <label for="profile">프로필 사진:</label>
+            <input type="file" id="profile" name="profile" accept="images/*">
+        </div>
+        <div>
+            <label for="resume">자기소개:</label>
+            <textarea id="resume" name="resume" rows="5" cols="50" placeholder="자기소개를 입력해주세요."></textarea>
+        </div>
+        <div>
+            <label for="color">색상:</label>
+            <input type="color" id="color" name="color">
+        </div>
+        <div style="margin-top: 20px;">
+            <input type="reset" value="초기화">
+            <input type="submit" value="제출">
+            <button type="reset">초기화</button>
+            <button type="submit">제출</button>
+        </div>
+    </form>
+</body>
+</html>
