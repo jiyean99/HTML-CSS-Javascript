@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS 프레임워크 | Bootstrap</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">EAZY BOARD</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Pricing</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                    </li>   
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="my-4 clearfix d-flex justify-content-between align-items-center">
+            <h3 class="float-start my-0">게시글 목록</h3>
+            <button class="float-end btn btn-dark ms-auto">글쓰기</button>
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>작성일</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="post-id"></td>
+                    <td class="post-title"></td>
+                    <td class="post-author"></td>
+                    <td class="post-date"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        // 더미 데이터
+        const posts = [
+            { id: 1, title: "나는야 홍길동", author: "hong@naver.com", date: "2026-01-03" },
+            { id: 2, title: "안녕하세요", author: "jiyean@naver.com", date: "2026-01-04" },
+            { id: 3, title: "개발 좋아", author: "brad@naver.com", date: "2026-01-06" }
+        ];
+
+        const tbody = document.querySelector('table tbody');
+        tbody.innerHTML = ''; // 기존 내용 초기화
+
+        posts.forEach(post => {
+            const row = document.createElement('tr');
+
+            const idCell = document.createElement('td');
+            idCell.textContent = post.id;
+            row.appendChild(idCell);
+
+            const titleCell = document.createElement('td');
+            titleCell.textContent = post.title;
+            row.appendChild(titleCell);
+
+            const authorCell = document.createElement('td');
+            authorCell.textContent = post.author;
+            row.appendChild(authorCell);
+
+            const dateCell = document.createElement('td');
+            dateCell.textContent = post.date;
+            row.appendChild(dateCell);
+
+            tbody.appendChild(row);
+        });
+    </script>
+</body>
+</html>

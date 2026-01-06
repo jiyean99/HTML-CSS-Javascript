@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시글 목록</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-dark bg-dark navbar-expand-sm">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="../post/post_list.html">EAZY BOARD</a>
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="../author/author_list.html">회원 목록</a></li>
+                <li class="nav-item"><a class="nav-link" href="../post/post_list.html">게시글 목록</a></li>
+                <li class="nav-item"><a class="nav-link" href="../author/author_register.html">회원가입</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="my-4 clearfix d-flex justify-content-between align-items-center">
+            <h3 class="float-start my-0">게시글 목록</h3>
+            <a href="../post/post_register.html" class="float-end btn btn-dark ms-auto">새 글 작성</a>
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>작성일</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="post-id"></td>
+                    <td class="post-title"></td>
+                    <td class="post-author"></td>
+                    <td class="post-date"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        // 더미 데이터
+        const posts = [
+            { id: 1, title: "나는야 홍길동", author: "hong@naver.com", date: "2026-01-03" },
+            { id: 2, title: "안녕하세요", author: "jiyean@naver.com", date: "2026-01-04" },
+            { id: 3, title: "개발 좋아", author: "brad@naver.com", date: "2026-01-06" }
+        ];
+
+        const tbody = document.querySelector('table tbody');
+        tbody.innerHTML = ''; // 기존 내용 초기화
+
+        posts.forEach(post => {
+            const row = document.createElement('tr');
+
+            const idCell = document.createElement('td');
+            idCell.textContent = post.id;
+            row.appendChild(idCell);
+
+            const titleCell = document.createElement('td');
+            titleCell.textContent = post.title;
+            row.appendChild(titleCell);
+
+            const authorCell = document.createElement('td');
+            authorCell.textContent = post.author;
+            row.appendChild(authorCell);
+
+            const dateCell = document.createElement('td');
+            dateCell.textContent = post.date;
+            row.appendChild(dateCell);
+
+            tbody.appendChild(row);
+        });
+    </script>
+</body>
+
+</html>
