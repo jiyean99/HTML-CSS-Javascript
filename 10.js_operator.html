@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <script>
+        const onClickCompare = () => {
+            // == 숫자만 검사
+            console.log(10 == 10); //true
+            console.log(10 == '10'); //true
+            // === 숫자와 타입 검사
+            console.log(10 === 10); //true
+            console.log(10 === '10'); //false
+
+            let v1;
+            let v2 = null;
+            console.log(v1); //undefined
+            console.log(v2); //null
+            console.log(v1 == v2); //true
+            console.log(v1 === v2); //false
+
+            const p1 = { name: "홍길동", email: "hong@naver.com", nickName: null };
+            console.log(p1.nickName); //null
+            console.log(p1.age); //undefined
+            if (p1.age == null) {
+                console.log("동등: age는 null 입니다.");
+            } else {
+                console.log("동등: age는 null이 아닙니다.");
+            }
+            if (p1.age === null) {
+                console.log("일치: age는 null 입니다.");
+            } else {
+                console.log("일치: age는 null이 아닙니다.");
+            }
+        }
+
+        const biggerNum = (a, b) => {
+            const bigger = (a > b) ? a : b;
+            document.getElementById("result").innerHTML = bigger;
+        }
+
+        const compareString = () => {
+            const compareStringResult = "a" > "b";
+            document.getElementById("result-string").innerHTML = compareStringResult;
+        }
+
+        const converType = () => {
+            let st1 = "10";
+            let st2 = "hello";
+            let num1 = Number(st1);
+            console.log(typeof num1); //number
+            num1 = String(num1);
+            console.log(typeof num1); //string
+
+            let num2 = Number(st2);
+            console.log(num2); //NaN(Not a Number: 숫자 연산이 불가능하다는 타입)
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container py-3">
+        <section class="mb-4">
+            <h1>연산자 예시</h1>
+            <h2>비교 연산자</h2>
+            <p><code>></code>, <code><</code>, <code>>=</code>, <code><=</code>, <code>!</code> 등</p>
+            <p><code> == </code>: 값만 일치하면 true 반환(동등)</p>
+            <p><code> === </code>: 값과 타입이 일치해야 true 반환(일치)</p>
+            <button class="btn btn-dark" onclick="onClickCompare()">결과출력(콘솔)</button><br /><br />
+
+            <h2>삼항연산자</h2>
+            <p>number 비교
+                <code>10 vs 20 : <span id="result"></span></code>
+            </p>
+            <pre><code>const bigger = (a > b) ? a : b;</code></pre>
+            <button class="btn btn-dark" onclick="biggerNum(10,20)">결과출력(화면)</button><br /><br />
+
+            <p>String 비교
+                <code>a > b : <span id="result-string"></span></code>
+            </p>
+            <pre><code>const compareStringResult = "a" > "b";</code></pre>
+            <button class="btn btn-dark" onclick="compareString()">결과출력(화면)</button><br /><br />
+
+            <h2>형변환</h2>
+            <button class="btn btn-dark" onclick="converType()">숫자↔문자(콘솔)</button><br /><br />
+
+            <h2>삼항연산자 + 형변환 활용</h2>
+            <p>입력받은 값 중 더 큰 값 출력 :
+                <code><span id="result-test">아래에 값을 입력하시오</span></code>
+            </p>
+            <div class="form-group mb-3">
+                <input id="firstValue" type="text" class="form-control" placeholder="첫번째 값"><br>
+                <input id="secondValue" type="text" class="form-control" placeholder="두번째 값">
+            </div>
+            <button class="btn btn-dark" onclick="biggerNum2(10,20)">결과출력(화면)</button><br /><br />
+            <script>
+                const biggerNum2 = () => {
+                    // value : html요소는 문자값이므로 숫자변환 필요
+                    const firstValue = document.getElementById("firstValue").value;
+                    const secondValue = document.getElementById("secondValue").value;
+                    const firstNum = Number(firstValue);
+                    const secondNum = Number(secondValue);
+                    document.getElementById("result-test").innerHTML = firstNum > secondNum ? firstNum : secondNum;
+                }
+            </script>
+
+            </form>
+        </section>
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS 함수</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+    <script>
+        function basicFuntion() {
+            console.log("hello wolrd 1");
+        }
+
+        const variableFunction = function () {
+            console.log("hello wolrd 2");
+        }
+
+        const variableFunction2 = () => {
+            console.log("hello wolrd 3");
+        }
+
+        const returnFunction = () => {
+            console.log(makeString());
+            console.log(makeString2());
+            console.log(makeString3());
+
+        }
+
+        const makeString = () => "hello javascript!";
+        const makeString2 = function () {
+            return "hello javascript!!";
+        }
+        function makeString3() {
+            return "hello javascript!!!";
+        }
+
+        const paramFunciont1 = (a, b) => {
+            console.log(`a + b = ${a + b}`);
+        }
+
+        const paramFunciont2 = (name = "hong") => {
+            // 이 때 name에 값을 담지 않고 출력 시 undefined가 출력됨
+            // 또한 파라미터에 기본값 세팅 가능
+            console.log(`name = ${name}`);
+        }
+
+        const paramFunciont3 = (arr) => {
+            // 파라미터로 배열, 객체 등 받을 수 있다.
+            console.log(`arr = ${arr}`);
+        }
+
+        // Java의 예외처리 목적 : 예외 강제 발생 && 예외처리(적절한 안내문구, 코드중단 방지)
+        // JS(화면) : 예외처리(적절한 안내문구, 코드중단 방지)
+        // 즉, 프론트엔드의 예외처리는 주로 사용자에게 적절한 안내를 주거나, 코드의 중단을 막기 위해 사용됨
+        const exceptionFunction = () => {
+            try {
+                example(); // 정의되지 않은 함수 호출 -> 에러 발생 예상됨                
+            } catch (e) {
+                alert(`error log : ${e}`); // 사용자를 위한 코드
+                console.log(`error log : ${e}`); // 개발자를 위한 코드
+            }
+            console.log("hello wolrd");
+        }
+
+        const arrFunction = () => {
+            const arr = [1, 2, () => { console.log("hello"); }];
+            arr[2]();
+        }
+
+        const createPerson = (name, email, age) => {
+            // 단축속성명을 통해 객체 생성 후 문자열 return
+            return {
+                name,
+                email,
+                age,
+                printPerson: () => { return `이름은 ${name}, 이메일은 ${email}, 나이는 ${age}` }
+            };
+        }
+
+        const objFunction = () => {
+            const p1 = createPerson("hong", "hong@naver.com", 30);
+            console.log(p1);
+            console.log(p1.printPerson());
+        }
+
+        const reloadScreen = () => {
+            window.location.reload();
+        }
+
+        const moveScreen = () => {
+            window.location.href = "https://www.naver.com";
+        }
+
+        const scrollEvent = () => {
+            window.addEventListener('scroll', () => console.log("hello"));
+        }
+
+        const clickEvent = () => {
+            const popupBtn = document.getElementById("popup-btn");
+            popupBtn.addEventListener('click', () => console.log("hello"));
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container py-3">
+        <section class="mb-4">
+            <h2>JS 함수 호출</h2>
+            <pre><code>
+function basicFuntion() {
+    console.log("hello wolrd");
+}</code></pre>
+            <button class="btn btn-dark" onclick="basicFuntion()">기본 호출방식(콘솔출력)</button>
+            <pre><code>
+function basicFuntion() {
+    console.log("hello wolrd");
+}</code></pre>
+            <button class="btn btn-dark" onclick="variableFunction()">변수함수 호출방식1(콘솔출력)</button>
+            <pre><code>
+const variableFunction2 = () => {
+    console.log("hello wolrd");
+}</code></pre>
+            <button class="btn btn-dark" onclick="variableFunction2()">변수함수 호출방식2(콘솔출력)</button>
+            <pre><code>
+const returnFunction = () => {
+    console.log(makeString());
+}
+
+const makeString = () => {
+    return "hello javascript";
+}
+</code></pre>
+            <button class="btn btn-dark" onclick="returnFunction()">return이 있는 함수(콘솔출력)</button>
+            <pre><code>
+const paramFunciont1 = (a, b) => {
+    console.log(`a + b = ${a + b}`);
+}</code></pre>
+            <button class="btn btn-dark" onclick="paramFunciont1(1, 2)">매개변수가 있는 함수1(콘솔출력)</button>
+            <pre><code>
+const paramFunciont2 = (name = "hong") => {
+    console.log(`name = ${name}`);
+}</code></pre>
+            <button class="btn btn-dark" onclick="paramFunciont2('kim')">매개변수가 있는 함수2(콘솔출력)</button>
+            <pre><code>
+const paramFunciont3 = (arr) => {
+    console.log(`arr = ${arr}`);
+}</code></pre>
+            <button class="btn btn-dark" onclick="paramFunciont3([1,2,3,4,5])">매개변수가 있는 함수3(콘솔출력)</button>
+            <hr>
+            <h2>JS 예외처리</h2>
+            <pre><code>
+const exceptionFunction = () => {
+    try {
+        example();
+    } catch (e) {
+        alert(`error log : ${e}`);
+        console.log(`error log : ${e}`);
+    }
+    console.log("hello wolrd");
+}</code></pre>
+            <button class="btn btn-dark" onclick="exceptionFunction()">예외처리 함수 호출(콘솔)</button>
+            <hr>
+            <h2>객체, 배열 내 함수 호출</h2>
+            <pre><code>
+const arrFunction = () => {
+    const arr = [1, 2, () => { console.log("hello"); }];
+    arr[2]();
+}</code></pre>
+            <button class="btn btn-dark" onclick="arrFunction()">배열 내 함수 호출(콘솔)</button>
+            <pre><code>
+const createPerson = (name, email, age) => {
+    return {
+        name,
+        email,
+        age,
+        printPerson: () => { return `이름은 ${name}, 이메일은 ${email}, 나이는 ${age}` }
+    };
+}
+
+const objFunction = () => {
+    const p1 = createPerson("hong", "hong@naver.com", 30);
+    console.log(p1);
+    console.log(p1.printPerson());
+}
+</code></pre>
+            <button class="btn btn-dark" onclick="objFunction()">객체 생성(콘솔)</button>
+            <hr>
+            <h2>window 객체 함수(내장함수)</h2>
+            <ul>
+                <li>알림창 출력: <code>alert();</code></li>
+                <li>새로고침 실행: <code>window.location.reload();</code></li>
+                <li>페이지 이동: <code>window.location.href = "이동경로URL";</code></li>
+            </ul>
+            <button class="btn btn-dark" onclick="reloadScreen()">화면새로고침</button>
+            <button class="btn btn-dark" onclick="moveScreen()">화면이동</button>
+            <hr>
+            <h2>이벤트리스너(event listner) 함수 활용</h2>
+            <p>사용자가 html 화면 내에서 특정행위(event)를 했을 때 자동 실행되는 함수</p>
+            <ul>
+                <li><code>window.addEventListener('scroll', () => console.log("hello"));</code></li>
+                <li><code>element.addEventListener('click', () => console.log("hello"));</code></li>
+            </ul>
+            <p>스크롤 이벤트 버튼 클릭 후 스크롤 시 출력 실행</p>
+            <button class="btn btn-dark mb-3" onclick="scrollEvent()">스크롤 이벤트 처리</button>
+            <p>클릭 이벤트 버튼 클릭 후 콘솔버튼 클릭 시 출력 실행</p>
+            <button class="btn btn-dark" onclick="clickEvent()">클릭 이벤트 처리</button>
+            <button class="btn btn-dark" id="popup-btn">콘솔버튼</button>
+        </section>
+    </div>
+</body>
+
+</html>

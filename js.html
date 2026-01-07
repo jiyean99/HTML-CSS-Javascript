@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JavaScript 단권화 시트</title>
+
+    <!-- (선택) 부트스트랩: 기존처럼 사용 -->
+    <link rel="stylesheet" href="css/bootstrap.css">
+
+    <style>
+        /* 부트스트랩이 없더라도 기본 가독성 확보용(있어도 무방) */
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        pre {
+            white-space: pre;
+        }
+
+        pre code {
+            display: block;
+        }
+    </style>
+
+    <script>
+        /****************************************************************
+         * 공통: 화면 출력 유틸
+         ****************************************************************/
+        const setOutput = (id, text) => {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.textContent = text;
+        };
+
+        const appendOutput = (id, text) => {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.textContent += text + "\n";
+        };
+
+        const toJson = (obj) => JSON.stringify(obj, null, 2);
+
+        /****************************************************************
+         * 📍 console.log(): 콘솔 출력(디버깅)
+         * 📍 alert(): 경고/알림 팝업 (확인 전까지 코드가 멈추는 blocking 동작)
+         *
+         * 📍 JS 특징 메모
+         * - 동적 타입(런타임에 타입이 정해짐)
+         * - + 연산은 숫자 덧셈 / 문자열 결합이 상황에 따라 달라짐
+         ****************************************************************/
+
+        // 변수 타입별 연산 예시
+        let a = 10;     // number
+        let b = "10";   // string
+        let c = 20;     // number
+
+        console.log("a + b ===", a + b); // "1010"
+        console.log("a + c ===", a + c); // 30
+
+        /****************************************************************
+         * 1) Javascript 변수와 출력
+         ****************************************************************/
+        const console1 = () => {
+            console.log("console1 이벤트 핸들러 실행");
+        };
+
+        /****************************************************************
+         * 2) 배열(Array)
+         * - []로 생성, 서로 다른 타입도 담을 수 있음
+         * - push/pop/unshift/shift
+         * - forEach
+         ****************************************************************/
+        const console2 = () => {
+            let arr = [];
+            arr = ["a", 10];
+            console.log("arr === ", arr);
+
+            for (let i = 0; i < 5; i++) {
+                arr[i] = i;
+            }
+
+            arr.push("hello");
+            console.log("arr(push 후) === ", arr);
+
+            arr.forEach((v) => console.log("forEach === ", v));
+        };
+
+        /****************************************************************
+         * 3) 배열 누적합
+         ****************************************************************/
+        const console3 = () => {
+            let arr = [10, 20, 30, 40];
+            let total = 0;
+
+            for (let i = 0; i < arr.length; i++) {
+                total += arr[i];
+            }
+
+            const alertMessage = `배열: ${arr.join(", ")} / 누적합 === ${total}`;
+            alert(alertMessage);
+        };
+
+        /****************************************************************
+         * 4) 배열에 함수 넣기
+         ****************************************************************/
+        const arrFunction = () => {
+            const test = () => {
+                console.log("test 함수 실행");
+            };
+
+            let arr = [10, "20", test];
+            let arr2 = [10, "20", () => { console.log("리터럴 세팅 함수 실행"); }];
+
+            arr[2]();
+            arr2[2]();
+        };
+
+        /****************************************************************
+         * 5) var / let / const
+         ****************************************************************/
+        const varExample = () => {
+            var a = 10;
+            var a = 20; // 재선언 가능
+            console.log("var a ===", a);
+        };
+
+        const letExample = () => {
+            let a = 10;
+            a = 20; // 재할당 가능
+            // let a = 30; // 재선언 불가능
+            console.log("let a ===", a);
+        };
+
+        const constExample = () => {
+            const a = 10;
+            // a = 20; // 재할당 불가능(에러)
+            console.log("const a ===", a);
+        };
+
+        /****************************************************************
+         * 6) DOM 변경
+         ****************************************************************/
+        const changeText1 = () => {
+            let elem = document.getElementById("change1");
+            elem.innerHTML = "hello java";
+        };
+
+        const changeText2 = () => {
+            let elems = document.getElementsByClassName("change2");
+            for (let i = 0; i < elems.length; i++) {
+                elems[i].innerHTML = `${i}번 인덱스 === hello python`;
+            }
+        };
+
+        const changeText3 = () => {
+            let elems = document.getElementsByTagName("li");
+            for (let i = 0; i < elems.length; i++) {
+                elems[i].innerHTML = `${i}번 인덱스 === hello C++`;
+            }
+        };
+
+        /****************************************************************
+         * 7) 객체(Object) - 콘솔 + 화면 출력 버전
+         ****************************************************************/
+        const objectExample = () => {
+            // 출력 초기화
+            setOutput("objectOutput", "");
+
+            const hr = () => appendOutput("objectOutput", "--------------------------------------------------");
+            const title = (t) => {
+                hr();
+                appendOutput("objectOutput", `[${t}]`);
+                hr();
+            };
+
+            // [1] 리터럴 생성
+            title("객체 생성(리터럴)");
+            let person1 = { id: 1, name: "홍길동", email: "hong@naver.com", age: 30 };
+            appendOutput("objectOutput", toJson(person1));
+            appendOutput("objectOutput", "");
+
+            // [2] 접근/수정
+            title("접근 / 수정(dot, bracket)");
+            person1.name = "홍길동2";
+            person1["email"] = "hong2@naver.com";
+            appendOutput("objectOutput", toJson(person1));
+            appendOutput("objectOutput", "");
+
+            // [3] 추가/삭제
+            title("속성 추가 / 삭제");
+            person1.password = "1234";
+            appendOutput("objectOutput", "- password 추가 후");
+            appendOutput("objectOutput", toJson(person1));
+            appendOutput("objectOutput", "");
+
+            delete person1.password;
+            appendOutput("objectOutput", "- password 삭제 후");
+            appendOutput("objectOutput", toJson(person1));
+            appendOutput("objectOutput", "");
+
+            // [4] 존재 여부
+            title("존재 여부 확인(in / hasOwnProperty)");
+            appendOutput("objectOutput", `"email" in person1 === ${("email" in person1)}`);
+            appendOutput("objectOutput", `person1.hasOwnProperty("email") === ${person1.hasOwnProperty("email")}`);
+            appendOutput("objectOutput", "");
+
+            // [5] keys/values/entries
+            title("keys / values / entries");
+            appendOutput("objectOutput", "Object.keys(person1)");
+            appendOutput("objectOutput", JSON.stringify(Object.keys(person1)));
+            appendOutput("objectOutput", "");
+
+            appendOutput("objectOutput", "Object.values(person1)");
+            appendOutput("objectOutput", JSON.stringify(Object.values(person1)));
+            appendOutput("objectOutput", "");
+
+            appendOutput("objectOutput", "Object.entries(person1)");
+            appendOutput("objectOutput", JSON.stringify(Object.entries(person1)));
+            appendOutput("objectOutput", "");
+
+            // [6] 단축 속성명
+            title("객체 생성(단축 속성명)");
+            const name = "홍길동3";
+            const age = 32;
+            const person2_1 = { name: name, age: age };
+            const person2 = { name, age };
+            appendOutput("objectOutput", "person2_1 (기본형) === " + JSON.stringify(person2_1));
+            appendOutput("objectOutput", "person2   (단축형) === " + JSON.stringify(person2));
+            appendOutput("objectOutput", "");
+
+            // [7] 메서드
+            title("메서드(함수) 추가");
+            let person3 = {
+                id: 3,
+                name: "홍길동4",
+                age: 25,
+                sayHello: function () {
+                    return `안녕하세요. 제 이름은 ${this.name} 입니다.`;
+                },
+                introduce() {
+                    return `나이: ${this.age}`;
+                },
+            };
+            appendOutput("objectOutput", "person3.sayHello() === " + person3.sayHello());
+            appendOutput("objectOutput", "person3.introduce() === " + person3.introduce());
+            appendOutput("objectOutput", "");
+
+            // [8] 구조 분해
+            title("구조 분해 할당(Destructuring)");
+            const { id, email, name: userName } = person1;
+            appendOutput("objectOutput", `id === ${id}`);
+            appendOutput("objectOutput", `email === ${email}`);
+            appendOutput("objectOutput", `userName === ${userName}`);
+            appendOutput("objectOutput", "");
+
+            // [9] 스프레드 복사/병합
+            title("스프레드 복사/병합(Spread) - 얕은 복사");
+            const person1Copy = { ...person1, age: 99 };
+            const extra = { phone: "010-1234-5678", email: "overwrite@naver.com" };
+            const merged = { ...person1, ...extra };
+
+            appendOutput("objectOutput", "person1Copy ===");
+            appendOutput("objectOutput", toJson(person1Copy));
+            appendOutput("objectOutput", "");
+
+            appendOutput("objectOutput", "merged ===");
+            appendOutput("objectOutput", toJson(merged));
+            appendOutput("objectOutput", "");
+
+            // [10] 순회
+            title("순회(for...in)");
+            for (const key in person1) {
+                appendOutput("objectOutput", `${key} => ${person1[key]}`);
+            }
+
+            hr();
+        };
+
+    </script>
+</head>
+
+<body>
+    <div class="container py-3">
+
+        <h1 class="mb-4">JavaScript 단권화 시트</h1>
+
+        <!-- 1) 변수와 출력 -->
+        <section class="mb-4">
+            <h2>1) 변수와 출력</h2>
+
+            <pre class="bg-light p-2 rounded border"><code>
+// console.log(): 콘솔 출력
+// alert(): 알림 팝업(확인 전까지 코드가 멈춤)
+
+let a = 10;     // number
+let b = "10";   // string
+let c = 20;     // number
+
+console.log("a + b ===", a + b); // "1010" (문자열 결합)
+console.log("a + c ===", a + c); // 30     (숫자 덧셈)
+
+// 비교는 == 보다 === 권장
+// === : 타입까지 비교(자동 형변환 없음)
+// ==  : 자동 형변환이 일어나 헷갈릴 수 있음
+      </code></pre>
+
+            <button class="btn btn-dark my-1" onclick="console1()">console1 실행(콘솔)</button>
+        </section>
+
+        <!-- 2) 배열 -->
+        <section class="mb-4">
+            <h2>2) 배열(Array)</h2>
+
+            <pre class="bg-light p-2 rounded border"><code>
+const console2 = () => {
+  let arr = ["a", 10];
+  console.log("arr === ", arr);
+
+  for (let i = 0; i &lt; 5; i++) arr[i] = i;
+
+  arr.push("hello");
+  console.log("arr(push 후) === ", arr);
+
+  arr.forEach((v) => console.log("forEach === ", v));
+};
+      </code></pre>
+
+            <button class="btn btn-dark my-1" onclick="console2()">console2 실행(콘솔)</button>
+        </section>
+
+        <!-- 3) 누적합 -->
+        <section class="mb-4">
+            <h2>3) 배열 누적합</h2>
+
+            <pre class="bg-light p-2 rounded border"><code>
+const console3 = () => {
+  let arr = [10, 20, 30, 40];
+  let total = 0;
+
+  for (let i = 0; i &lt; arr.length; i++) total += arr[i];
+
+  alert(`배열: ${arr.join(", ")} / 누적합 === ${total}`);
+};
+      </code></pre>
+
+            <button class="btn btn-dark my-1" onclick="console3()">console3 실행(alert)</button>
+        </section>
+
+        <!-- 4) 배열 내 함수 -->
+        <section class="mb-4">
+            <h2>4) 배열 내 함수 실행</h2>
+
+            <pre class="bg-light p-2 rounded border"><code>
+const arrFunction = () => {
+  const test = () => console.log("test 함수 실행");
+
+  let arr = [10, "20", test];
+  let arr2 = [10, "20", () => console.log("리터럴 세팅 함수 실행")];
+
+  arr[2]();
+  arr2[2]();
+};
+      </code></pre>
+
+            <button class="btn btn-dark my-1" onclick="arrFunction()">arrFunction 실행(콘솔)</button>
+        </section>
+
+        <!-- 5) var/let/const -->
+        <section class="mb-4">
+            <h2>5) var / let / const</h2>
+
+            <pre class="bg-light p-2 rounded border"><code>
+const varExample = () => {
+  var a = 10;
+  var a = 20; // 재선언 가능
+  console.log("var a ===", a);
+};
+
+const letExample = () => {
+  let a = 10;
+  a = 20; // 재할당 가능
+  console.log("let a ===", a);
+};
+
+const constExample = () => {
+  const a = 10;
+  // a = 20; // 재할당 불가(에러)
+  console.log("const a ===", a);
+};
+      </code></pre>
+
+            <button class="btn btn-dark my-1" onclick="varExample()">var 예제(콘솔)</button>
+            <button class="btn btn-dark my-1" onclick="letExample()">let 예제(콘솔)</button>
+            <button class="btn btn-dark my-1" onclick="constExample()">const 예제(콘솔)</button>
+        </section>
+
+        <!-- 6) DOM 변경 -->
+        <section class="mb-4">
+            <h2>6) JS로 HTML 요소 변경(DOM)</h2>
+
+            <pre class="bg-light p-2 rounded border"><code>
+const changeText1 = () => {
+  let elem = document.getElementById("change1");
+  elem.innerHTML = "hello java";
+};
+
+const changeText2 = () => {
+  let elems = document.getElementsByClassName("change2");
+  for (let i = 0; i &lt; elems.length; i++) {
+    elems[i].innerHTML = `${i}번 인덱스 === hello python`;
+  }
+};
+
+const changeText3 = () => {
+  let elems = document.getElementsByTagName("li");
+  for (let i = 0; i &lt; elems.length; i++) {
+    elems[i].innerHTML = `${i}번 인덱스 === hello C++`;
+  }
+};
+      </code></pre>
+
+            <button class="btn btn-dark my-1" onclick="changeText1()">Id로 변경</button>
+            <p id="change1">hello world</p>
+
+            <button class="btn btn-dark my-1" onclick="changeText2()">class로 변경</button>
+            <p class="change2">hello world</p>
+            <p class="change2">hello world</p>
+            <p class="change2">hello world</p>
+            <p class="change2">hello world</p>
+
+            <button class="btn btn-dark my-1" onclick="changeText3()">tag(li)로 변경</button>
+            <ul>
+                <li>hello world</li>
+                <li>hello world</li>
+                <li>hello world</li>
+            </ul>
+        </section>
+
+        <!-- ===================== 7) 객체(Object) ===================== -->
+        <section class="mb-4">
+            <h2>7) 객체(Object)</h2>
+
+            <h4 class="mt-3">객체 특징</h4>
+            <pre class="bg-light p-2 rounded border"><code>
+        // 📍 객체 특징
+        // - { }로 바로 생성 가능(객체 리터럴)
+        // - key로 value 접근: obj.key 또는 obj["key"]
+        // - 값 수정/추가/삭제가 가능
+        // - 배열처럼 다양한 타입을 담을 수 있고, 함수(메서드)도 넣을 수 있음
+          </code></pre>
+
+            <h4 class="mt-3">객체 생성 방법</h4>
+            <pre class="bg-light p-2 rounded border"><code>
+        // 1) 리터럴 형식(Object Literal)
+        let person1 = { id: 1, name: "홍길동", email: "hong@naver.com", age: 30 };
+        
+        // 2) 단축 속성명(Shorthand Property Names)
+        const name = "홍길동3";
+        const age = 32;
+        let person2 = { name, age };
+          </code></pre>
+
+            <h4 class="mt-3">접근 / 수정 / 추가 / 삭제</h4>
+            <pre class="bg-light p-2 rounded border"><code>
+        // 점 표기법(dot)
+        person1.name = "홍길동2";
+        
+        // 대괄호 표기법(bracket)
+        person1["email"] = "hong2@naver.com";
+        
+        // 속성 추가
+        person1.password = "1234";
+        
+        // 속성 삭제
+        delete person1.password;
+          </code></pre>
+
+            <h4 class="mt-3">메서드(함수) 추가</h4>
+            <pre class="bg-light p-2 rounded border"><code>
+        let person3 = {
+          id: 3,
+          name: "홍길동4",
+          age: 25,
+        
+          sayHello: function () {
+            return `안녕하세요. 제 이름은 ${this.name} 입니다.`;
+          },
+        
+          introduce() {
+            return `나이: ${this.age}`;
+          }
+        };
+        
+        person3.sayHello();
+        person3.introduce();
+          </code></pre>
+
+            <h4 class="mt-3">구조 분해 할당(Destructuring)</h4>
+            <pre class="bg-light p-2 rounded border"><code>
+        const { id, email, name: userName } = person1;
+        // name: userName  -> name 값을 userName 변수로 받기
+          </code></pre>
+
+            <h4 class="mt-3">스프레드로 복사/병합(Spread)</h4>
+            <pre class="bg-light p-2 rounded border"><code>
+        const person1Copy = { ...person1, age: 99 };
+        
+        const extra = { phone: "010-1234-5678", email: "overwrite@naver.com" };
+        const merged = { ...person1, ...extra }; // 뒤에서 온 값이 덮어씀
+          </code></pre>
+
+            <h4 class="mt-3">순회(반복)</h4>
+            <pre class="bg-light p-2 rounded border"><code>
+        for (const key in person1) {
+          console.log(key, person1[key]);
+        }
+          </code></pre>
+
+            <h4 class="mt-3">실습 (화면 출력)</h4>
+            <button class="btn btn-dark my-1" onclick="objectExample()">객체 예제 실행(화면 출력)</button>
+            <pre id="objectOutput" class="bg-dark text-light p-2 rounded border mt-2"><code>
+        (출력 결과가 여기 표시됩니다)
+          </code></pre>
+        </section>
+
+
+    </div>
+</body>
+
+</html>
