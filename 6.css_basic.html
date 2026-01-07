@@ -1,34 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CSS basic</title>
 </head>
+
 <body>
     <h2>문자에 대한 설정</h2>
     <!--📍 문자 스타일 설정
         * font-style : 글자 스타일 설정(예: normal, italic, oblique)
-        * font-family : 글꼴 설정(예: Arial, 'Times New Roman', sans-serif, serif 등)
-        * font-size : 글자 크기 설정(예: px, em, rem, %, pt 등 단위 사용)
+        * font-family : 글꼴 우선순위 목록 + generic family(예: serif, sans-serif 등) 지정
+        * font-size : 글자 크기(길이/퍼센트/키워드 등). font-size가 바뀌면 em 같은 상대 단위 계산에도 영향
     -->
+
     <p>default font</p>
     <p style="font-style: italic;">font style</p>
     <p style="font-family:'Times New Roman', Times, serif;">font family</p>
     <p style="font-size: 24px;">font size</p>
-    <hr/>
+    <hr />
     <h2>글자의 절대 크기와 상대 크기</h2>
-    <!--📍 글꼴의 크기 
-        * html에서 별도의 글자크기에 대한 설정이 없으면 대략 16px로 설정됨
-        * 절대 크기 : 고정된 크기 설정
-            * px : 픽셀 단위
-            * pt : 인쇄물에서 주로 사용하는 포인트 단위 (1pt = 1/72인치)
-        * 상대 크기 : 부모 요소나 기본 글자 크기에 대한 비율로 설정
-            * em : 부모 글자 크기를 기준으로 한 상대 크기 (1em = 부모 글자 크기)
-            * rem : 최상위 요소(html)의 글자 크기를 기준으로 한 상대 크기 (1rem = 최상위 글자 크기) 
-            * % : 부모 글자 크기에 대한 백분율 (100% = 부모 글자 크기)
-            * vh : 뷰포트 높이(Viewport Height)의 백분율 단위 (1vh = 뷰포트 높이의 1%)
-            * vw : 뷰포트 너비(Viewport Width)의 백분율 단위 (1vw = 뷰포트 너비의 1%)
+    <!--📍 글꼴의 크기(단위)
+        * 기본값: 별도 설정이 없으면 브라우저 기본 글꼴 크기를 사용(보통 16px로 알려져 있음)
+        * 절대 단위:
+            * px : 화면 픽셀 기준
+            * pt : 인쇄물에서 쓰는 포인트 단위(대략 1pt = 1/72in)
+        * 상대 단위(기준이 “어디냐”가 핵심):
+            * % : 부모 요소의 font-size 기준(100% = 부모와 동일)
+            * em : 해당 요소의 계산된 font-size(상속 결과)를 기준으로 배수 적용(1em = 그 요소 font-size)
+            * rem : 루트(html) 요소의 font-size 기준(1rem = html font-size)
+            * vw/vh : 뷰포트 너비/높이의 1% 기준(반응형 텍스트에도 사용 가능)
     -->
     <p>글자의 기본 크기</p>
     <p style="font-size: 150%;">부모 글자의 1.5배 크기</p>
@@ -38,57 +40,45 @@
         <p style="font-size: 1.5em;">자식 텍스트 - em</p>
         <p style="font-size: 1.5rem;">자식 텍스트 - rem</p>
     </div>
-    <hr/>
+    <hr />
     <h2>너비/높이 절대 크기와 상대 크기</h2>
-    <!--📍 너비/높이 설정
-        * 절대 크기 : 고정된 크기 설정
-            * px : 픽셀 단위
-            * vh : 뷰포트 높이(Viewport Height)의 백분율 단위 (1vh = 뷰포트 높이의 1%)
-            * vw : 뷰포트 너비(Viewport Width)의 백분율 단위 (1vw = 뷰포트 너비의 1%)
-        * 상대 크기 : 부모 요소나 기본 글자 크기에 대한 비율로 설정
-            * % : 부모 요소의 너비/높이에 대한 백분율 (100% = 부모 요소의 너비/높이)
+    <!--📍 너비/높이 설정(단위)
+        * px : 고정 길이
+        * % : 부모 요소의 크기 기준(예: width: 50%는 부모 width의 50%)
+        * vw/vh : 뷰포트 너비/높이의 1% 기준
     -->
+
     <p style="font-size: 24px;">텍스트 절대크기</p>
     <p style="font-size: 5vw;">텍스트 상대크기</p>
     <div style="width: 300px; height: 150px; background-color: lightgray; margin-bottom: 10px;">
-        고정 너비/높이(300px x 150px)   
+        고정 너비/높이(300px x 150px)
     </div>
     <div style="width: 50%; height: 20vh; background-color: lightblue; margin-bottom: 10px;">
         부모 너비의 50%, 뷰포트 높이의 20vh
     </div>
 
-    <hr/>
+    <hr />
     <h2>margin과 padding의 이해</h2>
     <!--📍 margin과 padding
-        * margin : 요소의 바깥 여백(외부 여백) 설정
-            * 요소와 다른 요소 간의 간격 조절
-            * auto 값 설정 시, 가로 방향에서 요소를 가운데 정렬
-        * padding : 요소의 안쪽 여백(내부 여백) 설정
-            * 요소 내부의 콘텐츠와 요소 경계선 간의 간격 조절
+        * margin : 요소 바깥 여백(요소 간 간격). block 요소는 width가 있어야 margin: 0 auto로 가로 중앙 정렬 가능
+        * padding : 요소 안쪽 여백(콘텐츠와 border 사이 간격)
     -->
-    <!--📍 정렬
-        * place-content : 그리드 컨테이너 내에서 그리드 아이템들의 전체 정렬 방식 설정
-            * start : 시작 부분 정렬
-            * end : 끝 부분 정렬
-            * center : 가운데 정렬
-            * space-between : 아이템들 사이에 동일한 간격 배치
-            * space-around : 아이템들 주위에 동일한 간격 배치
-            * space-evenly : 아이템들 사이와 양 끝에 동일한 간격 배치
-        * text-align : 인라인 요소나 텍스트 블록 내에서 텍스트의 수평 정렬 방식 설정
-            * left : 왼쪽 정렬
-            * right : 오른쪽 정렬
-            * center : 가운데 정렬
-            * justify : 양쪽 정렬
+
+    <!--📍 정렬 관련
+        * margin: 0 auto : (block + width 지정 시) 요소 자체를 가로 중앙 정렬
+        * text-align : 블록(또는 table-cell) 내부의 인라인 콘텐츠/텍스트를 가로 정렬
+        * place-content : (grid/flex 컨테이너에서) content 정렬을 한 번에 지정하는 shorthand
     -->
     <div style="border: 5px solid black; width: 200px; height: 100px;">기본 div박스</div>
     <div style="border: 5px solid black; width: 200px; height: 100px; 
     margin: 20px;">margin: 20px</div>
     <div style="border: 5px solid black; width: 200px; height: 100px; margin: auto;">margin: auto</div>
     <div style="border: 5px solid black; width: 200px; height: 100px; padding: 20px;">padding: 20px;</div>
-    <div style="border: 5px solid black; width: 200px; height: 100px; place-content: center;">place-content: center;</div>
+    <div style="border: 5px solid black; width: 200px; height: 100px; place-content: center;">place-content: center;
+    </div>
     <div style="border: 5px solid black; width: 200px; height: 100px; text-align: center;">align: center;</div>
 
-    <hr/>
+    <hr />
     <h2>테이블 스타일 적용</h2>
     <table border="1" style="border-collapse: collapse; margin: auto; width: 300px; height: 130px; text-align: center;">
         <caption style="text-align: left;">테이블 A</caption>
@@ -114,4 +104,5 @@
     </table>
 
 </body>
+
 </html>
