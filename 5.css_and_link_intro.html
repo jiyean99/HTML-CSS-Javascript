@@ -47,6 +47,7 @@
         }
         document.getElementById("load1").innerHTML = "head에서 선언된 스크립트가 실행되었습니다.";
     </script>
+    <script src="js/myjs.js"></script>
 </head>
 
 <body>
@@ -151,9 +152,6 @@
         <p id="externalFunc-update">변경될 내용✅</p>
         <p id="externalFunc-rollback" style="display: none;">원복할 내용👍</p>
 
-        <script src="js/myJs.js"></script>
-
-
         <hr />
         <h2>JavaScript 로드 순서</h2>
         <!-- html에서 javascript 선언 방법의 차이
@@ -173,6 +171,7 @@
     <script>
         document.getElementById("load2").innerHTML = "body에서 선언된 스크립트가 실행되었습니다.";
     </script>
+    <script src="js/myjs.js"></script>
 </body>
 
 </html>
