@@ -146,7 +146,7 @@
             <ul>
                 <li>
                     리터럴 방식 :
-                    <pre><code>
+                    <pre class="bg-light p-3 border rounded overflow-auto"><code>
 let person = { id: 1, name: "홍길동", email: "hong@naver.com", age: 30 };
 console.log(person1);
                     </code></pre>
@@ -154,7 +154,7 @@ console.log(person1);
                 </li>
                 <li>
                     단축속성명 방식 : key와 value변수값이 동일하게 사용될 때 간편하게 객체 생성
-                    <pre><code>
+                    <pre class="bg-light p-3 border rounded overflow-auto"><code>
 const name = "홍길동"
 const age = 32;
 let person = { name, age };
@@ -162,7 +162,7 @@ let person = { name, age };
                 </li>
                 <li>
                     스프레드 문법으로 생성하는 방식
-                    <pre><code>
+                    <pre class="bg-light p-3 border rounded overflow-auto"><code>
 const obj1 = { a: 1, b: 2 };
 const obj2 = { ...obj1, c: 3 };
                     </code></pre>
@@ -178,7 +178,7 @@ const obj2 = { ...obj1, c: 3 };
                 <li><code> [] </code>접근 방식:
 
                 </li>
-                <pre>
+                <pre class="bg-light p-3 border rounded overflow-auto">
                     <code>
 const p1 = { name: "홍길동", email: "hong@naver.com", age: 30 };
 console.log(p1.name);
@@ -190,7 +190,7 @@ console.log(p1['name']);
             <hr>
             <h1>배열</h1>
             <h2>배열 생성</h2>
-            <pre><code>
+            <pre class="bg-light p-3 border rounded overflow-auto"><code>
 const makeArr = () => {
 let fruits = ['사과', '배', '바나나'];
 //📍 push() : 배열에 요소 추가
@@ -204,7 +204,7 @@ console.log(fruits); // ['사과', '배', '바나나']
             <button class="btn btn-dark" onclick="makeArr()">배열 생성 버튼(콘솔)</button>
             <hr>
             <h2>배열 접근</h2>
-            <pre><code>
+            <pre class="bg-light p-3 border rounded overflow-auto"><code>
 const getArr = () => {
 let fruits = ['사과', '배', '바나나'];
 console.log(fruits[0]); // 사과
@@ -213,7 +213,7 @@ console.log(fruits[0]); // 사과
             <button class="btn btn-dark" onclick="getArr()">배열 접근 버튼(콘솔)</button>
             <hr>
             <h2>배열 수정</h2>
-            <pre><code>
+            <pre class="bg-light p-3 border rounded overflow-auto"><code>
 const changeArr = () => {
 let fruits = ['사과', '배', '바나나'];
 fruits[0] = '포도'

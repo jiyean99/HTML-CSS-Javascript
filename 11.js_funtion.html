@@ -107,22 +107,22 @@
     <div class="container py-3">
         <section class="mb-4">
             <h2>JS 함수 호출</h2>
-            <pre><code>
+            <pre class="bg-light p-3 border rounded overflow-auto"><code>
 function basicFuntion() {
     console.log("hello wolrd");
 }</code></pre>
             <button class="btn btn-dark" onclick="basicFuntion()">기본 호출방식(콘솔출력)</button>
-            <pre><code>
+            <pre class="bg-light p-3 border rounded overflow-auto"><code>
 function basicFuntion() {
     console.log("hello wolrd");
 }</code></pre>
             <button class="btn btn-dark" onclick="variableFunction()">변수함수 호출방식1(콘솔출력)</button>
-            <pre><code>
+            <pre class="bg-light p-3 border rounded overflow-auto"><code>
 const variableFunction2 = () => {
     console.log("hello wolrd");
 }</code></pre>
             <button class="btn btn-dark" onclick="variableFunction2()">변수함수 호출방식2(콘솔출력)</button>
-            <pre><code>
+            <pre class="bg-light p-3 border rounded overflow-auto"><code>
 const returnFunction = () => {
     console.log(makeString());
 }
@@ -132,24 +132,24 @@ const makeString = () => {
 }
 </code></pre>
             <button class="btn btn-dark" onclick="returnFunction()">return이 있는 함수(콘솔출력)</button>
-            <pre><code>
+            <pre class="bg-light p-3 border rounded overflow-auto"><code>
 const paramFunciont1 = (a, b) => {
     console.log(`a + b = ${a + b}`);
 }</code></pre>
             <button class="btn btn-dark" onclick="paramFunciont1(1, 2)">매개변수가 있는 함수1(콘솔출력)</button>
-            <pre><code>
+            <pre class="bg-light p-3 border rounded overflow-auto"><code>
 const paramFunciont2 = (name = "hong") => {
     console.log(`name = ${name}`);
 }</code></pre>
             <button class="btn btn-dark" onclick="paramFunciont2('kim')">매개변수가 있는 함수2(콘솔출력)</button>
-            <pre><code>
+            <pre class="bg-light p-3 border rounded overflow-auto"><code>
 const paramFunciont3 = (arr) => {
     console.log(`arr = ${arr}`);
 }</code></pre>
             <button class="btn btn-dark" onclick="paramFunciont3([1,2,3,4,5])">매개변수가 있는 함수3(콘솔출력)</button>
             <hr>
             <h2>JS 예외처리</h2>
-            <pre><code>
+            <pr class="bg-light p-3 border rounded overflow-auto"><code>
 const exceptionFunction = () => {
     try {
         example();
@@ -162,13 +162,13 @@ const exceptionFunction = () => {
             <button class="btn btn-dark" onclick="exceptionFunction()">예외처리 함수 호출(콘솔)</button>
             <hr>
             <h2>객체, 배열 내 함수 호출</h2>
-            <pre><code>
+            <pre class="bg-light p-3 border rounded overflow-auto"><code>
 const arrFunction = () => {
     const arr = [1, 2, () => { console.log("hello"); }];
     arr[2]();
 }</code></pre>
             <button class="btn btn-dark" onclick="arrFunction()">배열 내 함수 호출(콘솔)</button>
-            <pre><code>
+            <pre class="bg-light p-3 border rounded overflow-auto"><code>
 const createPerson = (name, email, age) => {
     return {
         name,

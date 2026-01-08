@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>콜백함수</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container py-3">
+        <section class="mb-4">
+            <h1>콜백함수</h1>
+            <section class="my-4">
+                <h3 class="mb-3">개요: 멀티스레드 vs 싱글스레드</h3>
+
+                <h4 class="mt-3">실행 모델</h4>
+                <ul class="mb-3">
+                    <li><strong>멀티스레드</strong>: A, B, C, D 작업을 동시에(병렬로) 처리할 수 있음</li>
+                    <li><strong>싱글스레드</strong>: A → B → C → D 순서대로 하나씩 처리함</li>
+                </ul>
+
+                <hr />
+
+                <h4 class="mt-3">Java (멀티스레드)</h4>
+                <ul class="mb-3">
+                    <li><strong>장점</strong>: 여러 작업을 동시에 처리 가능해서 성능(처리량/응답성)이 좋아질 수 있음</li>
+                    <li><strong>단점</strong>: 동시성(공유 자원, 락, 데드락 등)을 고려해야 해서 코드 복잡도가 올라감</li>
+                </ul>
+
+                <h4 class="mt-3">JavaScript (싱글스레드)</h4>
+                <ul class="mb-3">
+                    <li><strong>장점</strong>: 한 번에 한 작업 흐름으로 실행되므로 동시성 이슈를 직접 다룰 일이 상대적으로 적어 구조가 단순함</li>
+                    <li><strong>단점</strong>: 한 작업이 오래 걸리면 다음 작업이 실행되지 못해 성능/응답성이 떨어질 수 있음</li>
+                    <li>
+                        <strong>보완</strong>: 위 단점을 줄이기 위해 비동기 코드(순서대로 “완료를 기다리지 않고” 다음 작업으로 넘어가는 방식)를 적극 도입함
+                    </li>
+                </ul>
+
+                <hr />
+
+                <h4 class="mt-3">비동기 처리 예시(병목 해결 흐름)</h4>
+                <p class="mb-2">
+                    예를 들어 코드가 A → B → C 순서로 실행된다고 가정하자.
+                    이때 A가 외부 서버와 통신(API 호출)처럼 오래 걸리는 작업이라면, B와 C는 A가 끝날 때까지 대기해야 한다.
+                </p>
+
+                <p class="mb-2">
+                    싱글스레드 환경에서 이런 대기 시간을 줄이기 위해 A를 <strong>비동기</strong>로 처리한다.
+                    즉, “A는 요청만 보내고, 완료되면 알려줘(콜백/프로미스/async-await로 이어서 처리할게). 그동안 B, C는 먼저 진행해”라는 방식이다.
+                </p>
+
+                <ul class="mb-0">
+                    <li>A(느린 작업: 서버 통신 등)를 비동기 요청으로 시작</li>
+                    <li>B, C는 A의 완료를 기다리지 않고 먼저 실행</li>
+                    <li>A가 완료되면 완료 시점에 등록해 둔 후속 로직이 실행(결과 반영)</li>
+                    <li>대표적인 사용처: API 호출, 파일/네트워크 I/O 같은 작업</li>
+                </ul>
+            </section>
+            <hr>
+            <section class="my-4">
+                <h2 class="my-4">일반함수 & 콜백 함수</h2>
+
+                <p>
+                    JavaScript에서 함수는 “값”처럼 다룰 수 있기 때문에(변수에 담거나, 다른 함수의 인자로 전달 가능),
+                    특정 시점에 실행할 로직을 함수 형태로 넘기는 패턴이 매우 자주 등장한다.
+                    이때 인자로 전달되는 함수를 <b>콜백(callback)</b> 함수라고 부른다.
+                </p>
+
+                <h4 class="mt-3">콜백 함수란?</h4>
+                <ul>
+                    <li>
+                        콜백 함수는 <b>다른 함수의 인자(매개변수)</b>로 전달되어, 그 함수 내부에서 호출되는 함수다.
+                    </li>
+                    <li>
+                        “지금 당장 실행”이 아니라 “특정 조건/시점에 실행”시키고 싶을 때 많이 사용한다.
+                    </li>
+                    <li>
+                        대표 사용처: 배열 반복(forEach/map/filter), 이벤트 처리(click/scroll), 타이머(setTimeout),
+                        네트워크 요청(fetch) 등의 후속 처리.
+                    </li>
+                </ul>
+
+                <h4 class="mt-3">동기(Synchronous) vs 비동기(Asynchronous)</h4>
+                <ul>
+                    <li><b>동기</b>: 코드가 위에서 아래로 순서대로 실행되고, 이전 작업이 끝나야 다음 줄이 실행된다.</li>
+                    <li><b>비동기</b>: 어떤 작업은 “완료를 기다리지 않고” 다음 줄로 넘어가며, 완료 시점에 콜백(또는 후속 로직)이 실행된다.</li>
+                    <li>
+                        JavaScript는 기본적으로 <b>싱글스레드</b>로 동작하지만, 비동기 패턴을 통해
+                        “오래 걸리는 작업 때문에 화면/로직이 멈추는 것”을 줄이는 방향으로 발전해왔다.
+                    </li>
+                </ul>
+
+                <hr />
+
+                <h4 class="mt-3">예시 1) 동기 콜백(즉시 실행되는 콜백)</h4>
+                <p class="mb-2">
+                    아래 예시는 forEach가 배열을 순회하면서 콜백을 <b>즉시</b> 호출하는 형태라, 실행이 순서대로 진행된다.
+                </p>
+                <pre class="bg-light p-3 border rounded overflow-auto"><code>
+// 동기 콜백 예시
+const nums = [1, 2, 3];
+
+nums.forEach((n) => {
+    console.log("현재 값:", n);
+});
+
+console.log("forEach 종료"); // 항상 마지막에 출력
+</code></pre>
+
+                <h4 class="mt-3">예시 2) 비동기 콜백(나중에 실행되는 콜백)</h4>
+                <p class="mb-2">
+                    setTimeout은 “지정된 시간이 지난 뒤” 콜백을 실행하므로,
+                    코드 작성 순서와 실제 실행 순서가 달라질 수 있다.
+                </p>
+                <pre class="bg-light p-3 border rounded overflow-auto"><code>
+// 비동기 콜백 예시
+console.log("A 시작");
+
+setTimeout(() => {
+    console.log("B (나중에 실행)");
+}, 0);
+
+console.log("C 끝");
+// 출력 순서 예: A 시작 → C 끝 → B (나중에 실행)
+</code></pre>
+
+                <h4 class="mt-3">JS가 싱글스레드인데 비동기가 가능한 이유(핵심 개념)</h4>
+                <ul>
+                    <li>
+                        “자바스크립트 코드 실행” 자체는 한 번에 한 줄(한 작업)씩 처리하지만,
+                        타이머/네트워크 요청 같은 작업은 브라우저(Web APIs) 또는 런타임 환경이 처리하고,
+                        완료되면 콜백을 “나중에 실행할 목록”에 올려서 이벤트 루프(event loop)가 적절한 타이밍에 실행한다.
+                    </li>
+                    <li>
+                        그래서 개발자는 콜백(또는 Promise/async-await)을 이용해 “완료 후 처리”를 등록하는 방식으로 비동기 흐름을 만든다.
+                    </li>
+                </ul>
+
+                <hr />
+
+                <h4 class="mt-3">콜백을 쓸 때 자주 하는 실수(주의)</h4>
+                <ul>
+                    <li>
+                        콜백을 “호출”해서 넘기지 말고, “함수 자체”를 넘겨야 한다.
+                        <ul>
+                            <li><code>onClick={handleClick}</code> (O) / <code>onClick={handleClick()}</code> (X: 즉시 실행)
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        비동기 콜백은 실행 시점이 나중이므로, “값이 이미 바뀐 뒤”를 참조하는 버그가 생길 수 있다(스코프/클로저 주의).
+                    </li>
+                    <li>
+                        콜백이 여러 단계로 중첩되면 가독성이 급격히 떨어질 수 있어, Promise/async-await로 구조를 개선하는 경우가 많다.
+                    </li>
+                </ul>
+            </section>
+            <hr>
+            <h2 class="my-4">일반함수</h2>
+            <pre class="bg-light p-3 border rounded overflow-auto"><code>const basicFunction = () => {
+    console.log("hello world");
+}</code></pre>
+            <button class="btn btn-dark" onclick="basicFunction()">일반함수 호출(콘솔)</button>
+            <hr>
+            <h2 class="my-4">콜백함수</h2>
+            <h4>콜백함수 작성 형태</h4>
+            <ul>
+                <li>case1) 이미 정의가 된 함수를 매개변수로 넘기는 경우</li>
+                <pre class="bg-light p-3 border rounded overflow-auto"><code>const callBackFunction1 = () => {
+    callBackTest(basicFunction);
+}</code></pre>
+                <li>case2) 매개변수에 함수를 리터럴로 작성해서 넘기는 경우</li>
+                <pre class="bg-light p-3 border rounded overflow-auto"><code>const callBackFunction1 = () => {
+    callBackTest(() => {
+        console.log("hello java");
+    });
+}</code></pre>
+            </ul>
+            <button class="btn btn-dark" onclick="callBackFunction1()">콜백함수1 호출(콘솔)</button>
+            <hr>
+            <h4>함수형 프로그래밍에서 콜백함수 활용</h4>
+            <pre class="bg-light p-3 border rounded overflow-auto"><code>const callBackFunction2 = () => {
+    const numbers = [1, 2, 3, 4, 5];
+    numbers.forEach((number) => {
+        console.log(number);
+    });
+}</code></pre>
+            <button class="btn btn-dark" onclick="callBackFunction2()">콜백함수2 호출(콘솔)</button>
+            </code></pre>
+            <hr>
+            <h4>콜백함수 + 비동기 활용 예시</h4>
+            <ul>
+                <li><code>setTimeout()</code>: n초 뒤에 요청한 작업을 처리해주는 함수
+                    <ul>
+                        <li>콜백함수 처리 + 비동기적으로 동작하는 대표적인 함수</li>
+                    </ul>
+                </li>
+            </ul>
+            <pre class="bg-light p-3 border rounded overflow-auto"><code>const callBackFunction3 = () => {
+    setTimeout(() => console.log("hello java1"), 2000);
+    console.log("hello python1");
+
+    setTimeout(() => console.log("hello java2"), 2000);
+    console.log("hello python2");
+}</code></pre>
+            <p>이 때 실행순서를 보장불가함에 대한 문제 발생(e.g.<code>java1,2 출력코드</code>)</p>
+            <p>api 응답을 요청하고, 해당 응답값을 받아서 실행해야하는 코드가 있다면 문제 발생(비동기내에서 동기적인 상황을 보장해야하는 경우)</p>
+            <p>콜백지옥 시작</p>
+            <button class="btn btn-dark" onclick="callBackFunction3()">콜백함수3 호출(콘솔)</button><br><br><br><br>
+
+            <script>
+                const basicFunction = () => {
+                    console.log("hello world");
+                }
+
+                const callBackFunction1 = () => {
+                    // case1) 이미 정의가 된 함수를 매개변수로 넘기는 경우
+                    // 그냥 basicFunction()를 실행하면 되는데 왜 콜백함수를 작성하느냐? -> 
+                    callBackTest(basicFunction);
+
+                    // case2) 매개변수에 함수를 리터럴로 작성해서 넘기는 경우
+                    // 이 때 console.log(넘겨지는 함수)가 콜백함수가 되는 것
+                    callBackTest(() => {
+                        console.log("hello java");
+                    });
+                }
+
+                const callBackTest = (f1) => {
+                    f1();
+                }
+
+                // foreach, map등 함수형 프로그래밍에서 콜백함수 형식을 많이 사용
+                const callBackFunction2 = () => {
+                    const numbers = [1, 2, 3, 4, 5];
+                    numbers.forEach((number) => {
+                        console.log(number);
+                    });
+                    console.log("hello python");
+                }
+
+                const callBackFunction3 = () => {
+                    // setTimeout() : n초 뒤에 요청한 작업을 처리해주는 함수
+                    // 실행이 요청되면, 메모리 공간 어딘가에 기록을 해놓는다. 이 때 n초가 지나게 되면 실행되는거고 나머지 작업들은 기록하는 시점부터 실행된다.
+                    // - 콜백함수 처리 + 비동기적으로 동작하는 대표적인 함수
+                    // JS에서 비동기적으로 동작하는 함수는 일반적으로 실행시간이 오래걸리는 작업(서버에 api요청)
+                    setTimeout(() => console.log("hello java1"), 2000);
+                    console.log("hello python1");
+
+                    setTimeout(() => console.log("hello java2"), 2000);
+                    console.log("hello python2");
+                    // 위 코드에서 p1, p2의 순서는 보장이 되나 j1과 j2의 실행순서는 보장할 수 없다(비동기적으로 실행했기 때문)
+                    // 즉, 비동기함수 간에 실행순서를 보장함에 문제 발생 -> 이를 보장하는 방법이 필요
+                }
+            </script>
+        </section>
+    </div>
+</body>
+
+</html>
