@@ -56,25 +56,40 @@
             <div class="tab-pane fade show active" id="ajax-pane" role="tabpanel" aria-labelledby="ajax-tab"
                 tabindex="0">
                 <h2 class="h4 mb-2">AJAX (비동기 실행 확인)</h2>
-                <p class="mb-2">
-                    Ajax 요청(jQuery, Axios 등)은 비동기적으로 실행되기 때문에, 요청을 시작한 직후에도 다음 줄 코드가 먼저 실행될 수 있다.
+                <p class="mb-3">
+                    Ajax 요청은 비동기적으로 실행되기 때문에, 요청을 시작한 직후에도 다음 줄 코드가 먼저 실행될 수 있다.
                 </p>
+
+                <h3 class="h6 mt-3">실행 코드(요약)</h3>
+                <pre class="bg-light p-3 border rounded overflow-auto"><code>const ajaxDemo = () => {
+  $(document).ready(() => {
+    $.ajax({
+      url: "https://jsonplaceholder.typicode.com/posts/1",
+      type: "GET",
+      dataType: "json",
+      success: (result) => {
+        console.log("실행순서 2");
+        console.log(result);
+        console.log("실행순서 3");
+      }
+    });
+  });
+
+  console.log("실행순서 1");
+};</code></pre>
 
                 <h3 class="h6 mt-3">관찰 포인트</h3>
                 <ul class="mb-3">
                     <li>콘솔에서 <code>실행순서 1</code>이 먼저 찍히는지 확인</li>
-                    <li>응답이 도착한 뒤 <code>실행순서 2 → (result 출력) → 실행순서 3</code>이 한 묶음으로 실행되는지 확인</li>
+                    <li>응답이 도착한 뒤 <code>실행순서 2 → (result 출력) → 실행순서 3</code>이 묶음으로 실행되는지 확인</li>
                 </ul>
 
                 <details class="mb-3">
                     <summary class="fw-semibold">왜 이런 순서가 나오나?</summary>
                     <div class="mt-2">
-                        <p class="mb-2">
-                            네트워크 요청은 시간이 걸릴 수 있다. 그래서 요청을 “보내기”만 하고,
-                            응답이 오면 그때 등록해 둔 <b>success 콜백</b>이 실행된다.
-                        </p>
                         <p class="mb-0">
-                            따라서 “요청 다음 줄”은 응답을 기다리지 않고 먼저 실행될 수 있다.
+                            네트워크 요청은 시간이 걸릴 수 있어서, 요청을 보내고 나면 코드가 기다리지 않고 다음 줄로 진행한다.
+                            응답이 도착하면 그때 등록된 <b>success 콜백</b>이 실행된다.
                         </p>
                     </div>
                 </details>
@@ -89,24 +104,57 @@
             <!-- Callback Hell -->
             <div class="tab-pane fade" id="hell-pane" role="tabpanel" aria-labelledby="hell-tab" tabindex="0">
                 <h2 class="h4 mb-2">콜백지옥 (중첩 문제)</h2>
-                <p class="mb-2">
-                    “첫 번째 요청의 응답을 이용해서 두 번째 요청을 보내야 한다”처럼
-                    <b>순서 의존</b>이 생기면, 비동기 요청의 다음 단계는 보통 이전 단계의 success 안에 들어가게 된다.
+                <p class="mb-3">
+                    “이전 요청 응답을 이용해 다음 요청을 보내야 하는 상황”에서 비동기 요청을 순서대로 묶으면
+                    success 안에 또 success가 들어가며 코드가 깊어진다.
                 </p>
+
+                <h3 class="h6 mt-3">실행 코드(요약)</h3>
+                <pre class="bg-light p-3 border rounded overflow-auto"><code>const callbackHellDemo = () => {
+  $(document).ready(() => {
+    $.ajax({
+      url: "https://jsonplaceholder.typicode.com/posts/1",
+      type: "GET",
+      dataType: "json",
+      success: () => {
+        console.log("B");
+        $.ajax({
+          url: "https://jsonplaceholder.typicode.com/posts/1",
+          type: "GET",
+          dataType: "json",
+          success: () => {
+            console.log("C");
+            $.ajax({
+              url: "https://jsonplaceholder.typicode.com/posts/1",
+              type: "GET",
+              dataType: "json",
+              success: (result) => {
+                console.log("D");
+                console.log(result);
+              }
+            });
+          }
+        });
+      }
+    });
+  });
+
+  console.log("A");
+};</code></pre>
 
                 <h3 class="h6 mt-3">관찰 포인트</h3>
                 <ul class="mb-3">
                     <li>콘솔에서 <code>A</code>가 먼저 찍히는지 확인</li>
-                    <li>이후 네트워크 응답 흐름에 따라 <code>B → C → D</code>가 순서대로 찍히는지 확인</li>
-                    <li>코드가 success 안으로 계속 깊어지며 가독성이 떨어지는지 확인</li>
+                    <li>응답 흐름에 따라 <code>B → C → D</code>가 순서대로 찍히는지 확인</li>
+                    <li>요청 단계가 늘어날수록 success 중첩이 깊어져 가독성이 떨어지는지 확인</li>
                 </ul>
 
                 <div class="alert alert-warning">
                     <div class="fw-semibold mb-1">콜백지옥이 불편한 이유</div>
                     <ul class="mb-0">
-                        <li>코드 들여쓰기가 깊어져 읽기 어렵다.</li>
-                        <li>에러 처리(error)가 단계마다 반복되어 중복이 늘어난다.</li>
-                        <li>중간 단계 추가/삭제가 힘들어 유지보수가 어려워진다.</li>
+                        <li>들여쓰기가 깊어져 읽기 어렵다.</li>
+                        <li>에러 처리(error)가 단계마다 반복되며 중복이 늘어난다.</li>
+                        <li>중간 단계 추가/삭제가 어렵다.</li>
                     </ul>
                 </div>
 
@@ -121,27 +169,53 @@
 // { ...result... }</code></pre>
             </div>
 
+
             <!-- async-await -->
             <div class="tab-pane fade" id="async-pane" role="tabpanel" aria-labelledby="async-tab" tabindex="0">
                 <h2 class="h4 mb-2">async-await (가독성 개선)</h2>
-                <p class="mb-2">
-                    async/await는 비동기 코드를 “순차 코드처럼 읽히게” 만들어,
-                    콜백 중첩을 줄이고 에러 처리도 한 곳으로 모을 수 있게 해준다.
+                <p class="mb-3">
+                    async/await는 비동기 요청을 “순차 코드처럼” 작성할 수 있게 해주어,
+                    콜백 중첩을 줄이고 유지보수를 쉽게 만든다.
                 </p>
+
+                <h3 class="h6 mt-3">실행 코드(요약)</h3>
+                <pre class="bg-light p-3 border rounded overflow-auto"><code>const requestPost = () => {
+  return $.ajax({
+    url: "https://jsonplaceholder.typicode.com/posts/1",
+    type: "GET",
+    dataType: "json",
+  });
+};
+
+const asyncAwaitDemo = async () => {
+  const r1 = await requestPost();
+  console.log("B"); console.log(r1);
+
+  const r2 = await requestPost();
+  console.log("C"); console.log(r2);
+
+  const r3 = await requestPost();
+  console.log("D"); console.log(r3);
+};
+
+$(document).ready(() => {
+  asyncAwaitDemo();
+  console.log("A");
+});</code></pre>
 
                 <h3 class="h6 mt-3">관찰 포인트</h3>
                 <ul class="mb-3">
                     <li><code>A</code>는 비동기 함수 호출 직후 먼저 찍힐 수 있음</li>
-                    <li><code>await</code> 때문에 요청 결과 출력은 <code>B → C → D</code> 순서대로 보장됨</li>
-                    <li>에러는 <code>try/catch</code>로 한 번에 처리 가능</li>
+                    <li><code>await</code> 때문에 결과 출력은 <code>B → C → D</code> 순서대로 보장됨</li>
+                    <li>(원본 코드 기준) 에러는 <code>try/catch</code>로 한 곳에서 처리 가능</li>
                 </ul>
 
                 <details class="mb-3">
                     <summary class="fw-semibold">왜 A가 먼저 찍힐까?</summary>
                     <div class="mt-2">
                         <p class="mb-0">
-                            async 함수는 호출하면 “바로 리턴”하고, 내부 로직은 await 지점에서
-                            응답을 기다렸다가 다음 줄로 진행한다. 그래서 바깥쪽 로그(A)가 먼저 찍힐 수 있다.
+                            async 함수는 호출하면 즉시 반환하고, 내부는 await 지점에서 응답을 기다렸다가 다음 줄로 진행한다.
+                            그래서 바깥쪽 로그(A)가 먼저 찍힐 수 있다.
                         </p>
                     </div>
                 </details>
@@ -155,6 +229,7 @@
 // D
 // { ...result3... }</code></pre>
             </div>
+
         </div>
     </div>
 
