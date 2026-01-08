@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS JSON 파싱과 직렬화</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <script>
+        const parsing1 = () => {
+            const jsonData = '{"id":0, "name": "홍길동", "email": "hong@nvaer.com"}';
+            const obj1 = JSON.parse(jsonData);
+            console.log(obj1);
+        }
+
+        const stringify = () => {
+            const obj1 = { id: 1, name: "홍길동", email: "hong@naver.com" };
+            const jsonData = JSON.stringify(obj1);
+            console.log(obj1);
+            console.log(typeof obj1); //object 타입의 데이터
+            console.log(jsonData);
+            console.log(typeof jsonData); //string 타입의 데이터
+        }
+
+        const addElem = () => {
+            const target = document.getElementById("target");
+            // 방법1
+            // target.innerHTML += '<li>추가된 리스트</li>';
+
+            // 방법2
+            const liElem = document.createElement('li')
+            liElem.textContent = "추가된 리스트";
+            target.appendChild(liElem)
+        }
+
+        const parsing2 = () => {
+            const jsonData = '{"id":0, "name": "홍길동", "email": "hong@nvaer.com"}';
+            const obj1 = JSON.parse(jsonData);
+            document.getElementById("id").innerHTML = obj1.id;
+            document.getElementById("name").innerHTML = obj1.name;
+            document.getElementById("email").innerHTML = obj1.email;
+        }
+
+        const parsing3 = () => {
+            // 요구사항:
+            // 1. JSON 데이터 선언 : [{},{},{},...]
+            // 2. JSON 데이터 객체로 파싱
+            // 3. for문을 통해 HTML 동적 세팅
+            // for(){
+            //  const html = "<tr><td>"+객체.id+ ...
+            // }
+            const jsonData = '[{"id":0, "name": "홍길동1", "email": "hong1@nvaer.com"}, {"id":1, "name": "홍길동2", "email": "hong2@nvaer.com"}, {"id":2, "name": "홍길동3", "email": "hong3@nvaer.com"}, {"id":3, "name": "홍길동4", "email": "hong4@nvaer.com"}]';
+
+            const users = JSON.parse(jsonData);
+            console.log(users);
+
+            const tbodyId = document.getElementById("tbodyId");
+            tbodyId.innerHTML = "";
+
+            users.forEach(user => {
+                const row = document.createElement('tr');
+
+                const idCell = document.createElement('td');
+                idCell.textContent = user.id;
+                row.appendChild(idCell);
+
+                const nameCell = document.createElement('td');
+                nameCell.textContent = user.name;
+                row.appendChild(nameCell);
+
+                const emailCell = document.createElement('td');
+                emailCell.textContent = user.email;
+                row.appendChild(emailCell);
+
+                tbodyId.append(row);
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container py-3">
+        <section class="mb-4">
+            <h2>JSON 처리 기본</h2>
+            <p>데이터를 요청하는 상황 : <code>GET요청</code> 후 <b>파싱</b></p>
+
+            <ul>
+                <li>파싱 <code>JSON.parse()</code> : JSON -> 객체</li>
+
+                <li>직렬화 <code>JSON.stringify()</code> : 객체 -> JSON</li>
+            </ul>
+            <button class="btn btn-dark" onclick="parsing1()">JSON 데이터 파싱(콘솔)</button>
+            <button class="btn btn-dark" onClick="stringify()">JSON 데이터 생성-직렬화(콘솔)</button>
+
+            <hr>
+            <h2>HTML 요소 동적 세팅</h2>
+            <ul>
+                <li>방법 1</li>
+                <pre><code>
+const addElem = () => {
+    const target = document.getElementById("target");
+    target.innerHTML += '&lt추가된 리스트&gt';
+}</code></pre>
+                <li>방법 2</li>
+                <pre><code>
+const addElem = () => {
+    const target = document.getElementById("target");
+    const liElem = document.createElement('li')
+    liElem.textContent = "추가된 리스트";
+    target.appendChild(liElem)
+}</code></pre>
+            </ul>
+            <button class="btn btn-dark" onClick="addElem()">항목 추가(화면)</button>
+            <div class="my-4">
+                <ul id="target">
+                </ul>
+            </div>
+
+            <hr>
+            <h2>단일 데이터 처리(테이블 세팅)</h2>
+            <button class="btn btn-dark" onclick="parsing2()">테이블 데이터 파싱(화면)</button>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>이름</th>
+                        <th>이메일</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="id" class="id"></td>
+                        <td id="name" class="name"></td>
+                        <td id="email" class="email"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <hr>
+            <h2>n개의 데이터 처리(테이블 세팅)</h2>
+            <button class="btn btn-dark" onclick="parsing3()">테이블 데이터 파싱(화면)</button>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>이름</th>
+                        <th>이메일</th>
+                    </tr>
+                </thead>
+                <tbody id="tbodyId">
+                </tbody>
+            </table>
+        </section>
+    </div>
+</body>
+
+</html>
