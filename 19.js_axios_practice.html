@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AXIOS 연습</title>
+    <!-- 부트스트랩 라이브러리 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <!-- axio 라이브러리 -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <div class="container py-3">
+        <section class="mb-4">
+            <div class="form-group">
+                <input type="number" class="form-control" id="requestDataNum" placeholder="조회를 원하는 번호를 입력하시오.">
+                <label for=""></label>
+            </div>
+            <button class="btn btn-dark" onclick="singleDataRequest()">단일 데이터 조회</button>
+            <button class="btn btn-dark" onclick="commonDataRequest()">전체 데이터 조회</button>
+
+            <table class="table table-striped mt-5">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>userId</th>
+                        <th>title</th>
+                        <th>body</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </section>
+    </div>
+    <script>
+        const singleDataRequest = async () => {
+            const jsonData = await axios.get("https://jsonplaceholder.typicode.com/posts");
+
+            const jsonElems = jsonData.data
+
+            const getId = Number(document.getElementById("requestDataNum").value);
+
+            const tbody = document.querySelector('table tbody');
+            tbody.innerHTML = '';
+
+            jsonElems.forEach(data => {
+                if (data.userId == getId) {
+                    const row = document.createElement('tr');
+
+                    const idCell = document.createElement('td');
+                    idCell.textContent = data.id;
+                    row.appendChild(idCell);
+
+                    const userIdCell = document.createElement('td');
+                    userIdCell.textContent = data.userId;
+                    row.appendChild(userIdCell);
+
+                    const titleCell = document.createElement('td');
+                    titleCell.textContent = data.title;
+                    row.appendChild(titleCell);
+
+                    const dateCell = document.createElement('td');
+                    dateCell.textContent = data.body;
+                    row.appendChild(dateCell);
+
+                    tbody.appendChild(row);
+                }
+            });
+        }
+
+        const commonDataRequest = async () => {
+            const jsonData = await axios.get("https://jsonplaceholder.typicode.com/posts");
+
+            const jsonElems = jsonData.data
+
+            const tbody = document.querySelector('table tbody');
+            tbody.innerHTML = '';
+
+            jsonElems.forEach(data => {
+                const row = document.createElement('tr');
+
+                const idCell = document.createElement('td');
+                idCell.textContent = data.id;
+                row.appendChild(idCell);
+
+                const userIdCell = document.createElement('td');
+                userIdCell.textContent = data.userId;
+                row.appendChild(userIdCell);
+
+                const titleCell = document.createElement('td');
+                titleCell.textContent = data.title;
+                row.appendChild(titleCell);
+
+                const dateCell = document.createElement('td');
+                dateCell.textContent = data.body;
+                row.appendChild(dateCell);
+
+                tbody.appendChild(row);
+            });
+        }
+
+    </script>
+</body>
+
+</html>

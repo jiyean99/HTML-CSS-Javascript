@@ -12,6 +12,38 @@
     <div class="container py-3">
         <section class="mb-4">
             <h1>async-await</h1>
+            <h2>axios 라이브러리 사용 예시</h2>
+            <pre class="bg-light p-2 rounded border"><code>
+const requestPost = () => {
+    return $.ajax({
+    url: "https://jsonplaceholder.typicode.com/posts/1",
+        type: "GET",
+        dataType: "json",
+    });
+};
+
+const dataRequest = async () => {
+    try {
+        const result1 = await requestPost();
+        console.log("B");
+        console.log(result1);
+
+        const result2 = await requestPost();
+        console.log("C");
+        console.log(result2);
+
+        const result3 = await requestPost();
+        console.log("D");
+        console.log(result3);
+    } catch (e) {
+        console.log("error", e);
+    }
+};
+
+$(document).ready(() => {
+    dataRequest();
+    console.log("A");
+});</code></pre>
         </section>
     </div>
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>

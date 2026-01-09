@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Axios POST 3가지 방식 정리</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        pre {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        code {
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-dark bg-dark navbar-expand-sm">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="../post/post_list.html">EAZY BOARD</a>
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="../author/author_list.html">회원 목록</a></li>
+                <li class="nav-item"><a class="nav-link" href="../post/post_list.html">게시글 목록</a></li>
+                <li class="nav-item"><a class="nav-link" href="../author/author_register.html">회원가입</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container py-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3 class="my-0">Axios POST 전송 3가지 방식</h3>
+            <a href="../post/post_list.html" class="btn btn-outline-dark">목록으로</a>
+        </div>
+
+        <!-- Tabs -->
+        <ul class="nav nav-tabs" id="postTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="tab-form" data-bs-toggle="tab" data-bs-target="#pane-form" type="button"
+                    role="tab">
+                    0) HTML form (기본 제출)
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="tab-json" data-bs-toggle="tab" data-bs-target="#pane-json"
+                    type="button" role="tab">
+                    1) JSON (기본)
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="tab-urlencoded" data-bs-toggle="tab" data-bs-target="#pane-urlencoded"
+                    type="button" role="tab">
+                    2) x-www-form-urlencoded
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="tab-formdata" data-bs-toggle="tab" data-bs-target="#pane-formdata"
+                    type="button" role="tab">
+                    3) FormData (multipart)
+                </button>
+            </li>
+        </ul>
+
+        <div class="tab-content border border-top-0 p-3" id="postTabsContent">
+            <!-- JSON -->
+            <div class="tab-pane fade" id="pane-form" role="tabpanel" aria-labelledby="tab-form" tabindex="0">
+                <p class="mb-2">
+                    JS 없이도 <code>form</code>의 <code>action</code>/<code>method</code>/<code>enctype</code>로 POST 전송이
+                    가능합니다.
+                    <code>method="post"</code>에서 기본 enctype은 <code>application/x-www-form-urlencoded</code>입니다.
+                </p>
+
+                <h6 class="mt-3">A. urlencoded 기본 전송</h6>
+                <form action="http://localhost:8081/post/register2" method="post"
+                    enctype="application/x-www-form-urlencoded">
+                    <div class="mb-2">
+                        <label class="form-label" for="ftitle">제목</label>
+                        <input class="form-control" id="ftitle" name="title" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="fcontents">내용</label>
+                        <textarea class="form-control" id="fcontents" name="contents" rows="4"></textarea>
+                    </div>
+                    <button class="btn btn-dark" type="submit">폼 제출(POST)</button>
+                </form>
+
+                <hr class="my-4" />
+
+                <h6>B. 파일 업로드 포함(multipart/form-data)</h6>
+                <form action="http://localhost:8081/post/registerWithFile" method="post" enctype="multipart/form-data">
+                    <div class="mb-2">
+                        <label class="form-label" for="ftitle2">제목</label>
+                        <input class="form-control" id="ftitle2" name="title" />
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label" for="fcontents2">내용</label>
+                        <textarea class="form-control" id="fcontents2" name="contents" rows="4"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="ffile">첨부파일</label>
+                        <input class="form-control" id="ffile" name="file" type="file" />
+                    </div>
+                    <button class="btn btn-dark" type="submit">파일 포함 제출</button>
+                </form>
+            </div>
+
+            <div class="tab-pane fade show active" id="pane-json" role="tabpanel" aria-labelledby="tab-json"
+                tabindex="0">
+                <p class="mb-2">
+                    JS 객체를 그대로 <b>axios.post(url, data)</b>로 보내면, Axios가 보통 JSON으로 직렬화하여 전송하는 형태로 사용합니다.
+                </p>
+                <pre><code>// 예: POST JSON (객체를 그대로 전달)
+const onClickPostRegisterJson = async () => {
+  try {
+    const titleValue = document.getElementById("title").value;
+    const contentsValue = document.getElementById("contents").value;
+
+    const data = { title: titleValue, contents: contentsValue };
+    await axios.post("http://localhost:8081/post/register1", data);
+
+    window.location.href = "./post_list.html";
+  } catch (error) {
+    console.log(error);
+    alert("예상치 못한 에러가 발생하였습니다.");
+  }
+};</code></pre>
+
+                <div class="mb-2">
+                    <label class="form-label">제목</label>
+                    <input id="title" class="form-control" placeholder="테스트 제목" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">내용</label>
+                    <textarea id="contents" class="form-control" rows="4" placeholder="테스트 내용"></textarea>
+                </div>
+                <button class="btn btn-dark" type="button" onclick="onClickPostRegisterJson()">
+                    JSON 방식으로 전송
+                </button>
+            </div>
+
+            <!-- x-www-form-urlencoded -->
+            <div class="tab-pane fade" id="pane-urlencoded" role="tabpanel" aria-labelledby="tab-urlencoded"
+                tabindex="0">
+                <p class="mb-2">
+                    <code>application/x-www-form-urlencoded</code> 형식은 <code>URLSearchParams</code>로 key/value를 구성해서 보내는
+                    방식이 대표적입니다.
+                </p>
+                <pre><code>// 예: x-www-form-urlencoded (URLSearchParams)
+const onClickPostRegisterUrlencoded = async () => {
+  try {
+    const titleValue = document.getElementById("title2").value;
+    const contentsValue = document.getElementById("contents2").value;
+
+    const params = new URLSearchParams();
+    params.append("title", titleValue);
+    params.append("contents", contentsValue);
+
+    await axios.post("http://localhost:8081/post/register2", params, {
+      headers: { "Content-Type": "application/x-www-form-urlencoded" }
+    });
+
+    window.location.href = "./post_list.html";
+  } catch (error) {
+    console.log(error);
+    alert("예상치 못한 에러가 발생하였습니다.");
+  }
+};</code></pre>
+
+                <div class="mb-2">
+                    <label class="form-label">제목</label>
+                    <input id="title2" class="form-control" placeholder="테스트 제목" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">내용</label>
+                    <textarea id="contents2" class="form-control" rows="4" placeholder="테스트 내용"></textarea>
+                </div>
+                <button class="btn btn-dark" type="button" onclick="onClickPostRegisterUrlencoded()">
+                    x-www-form-urlencoded 방식으로 전송
+                </button>
+            </div>
+
+            <!-- FormData -->
+            <div class="tab-pane fade" id="pane-formdata" role="tabpanel" aria-labelledby="tab-formdata" tabindex="0">
+                <p class="mb-2">
+                    파일 업로드/멀티파트 전송이 필요하면 <code>FormData</code>를 만들어 <code>append()</code>로 넣고 POST로 보냅니다.
+                </p>
+                <pre><code>// 예: multipart/form-data (FormData)
+const onClickPostRegisterFormData = async () => {
+  try {
+    const titleValue = document.getElementById("title3").value;
+    const contentsValue = document.getElementById("contents3").value;
+
+    const formData = new FormData();
+    formData.append("title", titleValue);
+    formData.append("contents", contentsValue);
+
+    // 일반적으로 FormData를 바디로 넘기면 멀티파트로 전송하는 형태로 사용합니다.
+    await axios.post("http://localhost:8081/post/register3", formData);
+
+    window.location.href = "./post_list.html";
+  } catch (error) {
+    console.log(error);
+    alert("예상치 못한 에러가 발생하였습니다.");
+  }
+};</code></pre>
+
+                <div class="mb-2">
+                    <label class="form-label">제목</label>
+                    <input id="title3" class="form-control" placeholder="테스트 제목" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">내용</label>
+                    <textarea id="contents3" class="form-control" rows="4" placeholder="테스트 내용"></textarea>
+                </div>
+
+                <button class="btn btn-dark" type="button" onclick="onClickPostRegisterFormData()">
+                    FormData 방식으로 전송
+                </button>
+
+                <div class="mt-3 text-muted small">
+                    참고: 기존 코드에서 <code>data.append("title", title)</code>처럼 변수명이 잘못 들어가면 값이 전송되지 않습니다(여기서는
+                    titleValue/contentsValue로 수정).
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const onClickPostRegisterJson = async () => {
+            try {
+                const titleValue = document.getElementById("title").value;
+                const contentsValue = document.getElementById("contents").value;
+                const data = { title: titleValue, contents: contentsValue };
+
+                await axios.post("http://localhost:8081/post/register1", data);
+                window.location.href = "./post_list.html";
+            } catch (error) {
+                console.log(error);
+                alert("예상치 못한 에러가 발생하였습니다.");
+            }
+        };
+
+        const onClickPostRegisterUrlencoded = async () => {
+            try {
+                const titleValue = document.getElementById("title2").value;
+                const contentsValue = document.getElementById("contents2").value;
+
+                const params = new URLSearchParams();
+                params.append("title", titleValue);
+                params.append("contents", contentsValue);
+
+                await axios.post("http://localhost:8081/post/register2", params, {
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" }
+                });
+
+                window.location.href = "./post_list.html";
+            } catch (error) {
+                console.log(error);
+                alert("예상치 못한 에러가 발생하였습니다.");
+            }
+        };
+
+        const onClickPostRegisterFormData = async () => {
+            try {
+                const titleValue = document.getElementById("title3").value;
+                const contentsValue = document.getElementById("contents3").value;
+
+                const formData = new FormData();
+                formData.append("title", titleValue);
+                formData.append("contents", contentsValue);
+
+                await axios.post("http://localhost:8081/post/register3", formData);
+                window.location.href = "./post_list.html";
+            } catch (error) {
+                console.log(error);
+                alert("예상치 못한 에러가 발생하였습니다.");
+            }
+        };
+    </script>
+</body>
+
+</html>

@@ -34,6 +34,7 @@
             <thead>
                 <tr>
                     <th>ID</th>
+                    <th>사용자ID</th>
                     <th>제목</th>
                     <!-- <th>body</th> -->
                 </tr>
@@ -44,7 +45,7 @@
     </div>
     <script>
         const serverData = async () => {
-            const jsonData = await axios.get("http://ec2-15-165-203-119.ap-northeast-2.compute.amazonaws.com:8081/post/list");
+            const jsonData = await axios.get("https://jsonplaceholder.typicode.com/posts");
 
             const jsonElems = jsonData.data
 
@@ -54,14 +55,13 @@
             jsonElems.forEach(data => {
                 const row = document.createElement('tr');
 
-                // 행 클릭 시 상세 페이지로 이동
-                row.addEventListener("click", () => {
-                    window.location.href = `../post/post_detail.html?id=${encodeURIComponent(data.id)}`;
-                });
-
                 const idCell = document.createElement('td');
                 idCell.textContent = data.id;
                 row.appendChild(idCell);
+
+                const userIdCell = document.createElement('td');
+                userIdCell.textContent = data.userId;
+                row.appendChild(userIdCell);
 
                 const titleCell = document.createElement('td');
                 titleCell.textContent = data.title;

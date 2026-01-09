@@ -32,16 +32,14 @@
             <button class="btn btn-dark" onclick="singleDataRequest()">데이터 조회</button>
 
             <table class="table mt-5">
-                <colgroup>
-                    <col style="width: 20%;">
-                    <col>
-                </colgroup>
-
-                <!--  -->
                 <tbody id="detail-tbody">
                     <tr>
                         <th style="width: 150px; background-color: #eee;">ID</th>
                         <td id="detail-id"></td>
+                    </tr>
+                    <tr>
+                        <th style="width: 150px; background-color: #eee;">작성자 ID</th>
+                        <td id="detail-userId"></td>
                     </tr>
                     <tr>
                         <th style="width: 150px; background-color: #eee;">제목</th>
@@ -49,7 +47,7 @@
                     </tr>
                     <tr>
                         <th style="width: 150px; background-color: #eee;">내용</th>
-                        <td id="detail-contents"></td>
+                        <td id="detail-body"></td>
                     </tr>
                 </tbody>
             </table>
@@ -66,16 +64,18 @@
             return;
         }
         try {
-            const res = await axios.get(`http://localhost:8081/post/detail/${getId}`);
+            const res = await axios.get(`https://jsonplaceholder.typicode.com/posts/${getId}`);
             const data = res.data;
 
             document.getElementById("detail-id").textContent = data.id ?? "";
+            document.getElementById("detail-userId").textContent = data.userId ?? "";
             document.getElementById("detail-title").textContent = data.title ?? "";
-            document.getElementById("detail-contents").textContent = data.contents ?? "";
+            document.getElementById("detail-body").textContent = data.body ?? "";
         } catch (e) {
-            document.getElementById("detail-id").textContent = "-";
+            document.getElementById("detail-id").textContent = "";
+            document.getElementById("detail-userId").textContent = "";
             document.getElementById("detail-title").textContent = "조회 결과가 없습니다.";
-            document.getElementById("detail-contents").textContent = "-";
+            document.getElementById("detail-body").textContent = "";
 
             console.log(e);
         }
